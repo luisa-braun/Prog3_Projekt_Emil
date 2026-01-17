@@ -23,12 +23,7 @@ public class MainMenu extends UserInterface{
                 funktion = readFunction();
                 executeFunction(funktion);
             }
-            catch(IllegalArgumentException e)
-            {
-                System.out.println(e);
-                e.printStackTrace(System.out);
-            }
-            catch(InputMismatchException e)
+            catch(IllegalArgumentException | InputMismatchException e)
             {
                 System.out.println(e);
                 e.printStackTrace(System.out);
@@ -55,7 +50,6 @@ public class MainMenu extends UserInterface{
     /**
      * Executes the function selected by the user in the main menu.
      *
-     * @return The selected function as an integer.
      */
     private void executeFunction(int funktion) {
         switch (funktion) {

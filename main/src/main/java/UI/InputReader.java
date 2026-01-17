@@ -29,10 +29,7 @@ public class InputReader {
             catch(NumberFormatException e) {
                 System.out.println("Error – Please enter an integer value");
             }
-            catch(NoSuchElementException e) {
-                System.out.println(e);
-            }
-            catch(IllegalStateException e) {
+            catch(NoSuchElementException | IllegalStateException e) {
                 System.out.println(e);
             }
         }
