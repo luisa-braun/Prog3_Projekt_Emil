@@ -7,7 +7,7 @@
   <artifactId>shift-scheduling-tool</artifactId>
   <version>0.1-SNAPSHOT</version>
 
-  <name>pr3_aufgabe7</name>
+  <name>shift-scheduling-tool</name>
   <!-- FIXME change it to the project's website -->
 
   <properties>
