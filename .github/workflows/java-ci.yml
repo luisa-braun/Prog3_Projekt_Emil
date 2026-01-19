@@ -1,0 +1,32 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  JDK_VERSION: '21'
+  JDK_DIST: 'temurin'
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up JDK ${{ env.JDK_DIST }} version ${{ env.JDK_VERSION }} and Maven cache
+        uses: actions/setup-java@v5
+        with:
+          java-version: ${{ env.JDK_VERSION }}
+          distribution: ${{ env.JDK_DIST }}
+          cache: 'maven'
+
+      - name: Execute Maven goal verify
+        run: ./mvnw --batch-mode verify
