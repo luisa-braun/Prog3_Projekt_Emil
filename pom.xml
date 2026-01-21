@@ -87,6 +87,9 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
           <version>3.3.0</version>
+            <configuration>
+                <mainClass>de.emil.pr3.WorkScheduleManager</mainClass>
+            </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
