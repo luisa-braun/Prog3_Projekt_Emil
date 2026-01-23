@@ -7,7 +7,7 @@ public class MainMenu extends UserInterface{
 
     private static final int VIEW_EDIT_WORKERS = 1;
     private static final int VIEW_WORKSCHEDULE = 2;
-    private static final int GERENERATE_WORKSCHEDULE = 3;
+    private static final int GENERATE_WORKSCHEDULE = 3;
     private static final int END_PROGRAM = 4;
 
     /**
@@ -59,11 +59,11 @@ public class MainMenu extends UserInterface{
             case VIEW_WORKSCHEDULE:
                 //PlaceHolderSchedule();
                 break;
-            case GERENERATE_WORKSCHEDULE:
-                //PlaceGolderSchedule1();
+            case GENERATE_WORKSCHEDULE:
+                ShiftPlanner.generateAndShowPlan();
                 break;
             case END_PROGRAM:
-                System.out.println("You have finished the Programm. Goodbye.");
+                System.out.println("You have finished the Program. Goodbye.");
                 break;
             default:
                 System.out.println("Invalid option selected.");
@@ -77,7 +77,7 @@ public class MainMenu extends UserInterface{
         System.out.println("1. View/Edit Workers");
         System.out.println("2. View Work schedule");
         System.out.println("3. Generate Weekly Work schedule");
-        System.out.println("4. End Programm");
+        System.out.println("4. End Program");
         System.out.print(" Please select an option: ");
 
     }
