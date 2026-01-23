@@ -6,19 +6,22 @@ import java.util.UUID;
 public class Employee {
     private final String firstName;
     private final String lastName;
-    private final String id;
+    private final int id;
     private int workHoursCapacity;
 
-    public Employee(String firstName, String lastName) throws IllegalArgumentException {
+    public Employee(int id, String firstName, String lastName) throws IllegalArgumentException {
+        if (id < 0) {
+            throw new IllegalArgumentException("Id cannot be negative");
+        }
         if (Objects.isNull(firstName) || firstName.isBlank()) {
             throw new IllegalArgumentException("First name cannot be blank");
         }
         if (Objects.isNull(lastName) || lastName.isBlank()) {
             throw new IllegalArgumentException("Last name cannot be blank");
         }
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.id = UUID.randomUUID().toString();
         this.workHoursCapacity = 0;
     }
 
@@ -32,6 +35,10 @@ public class Employee {
         this.workHoursCapacity = workHoursCapacity;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -42,10 +49,6 @@ public class Employee {
 
     public String getFullName() {
         return firstName + " " + lastName;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public int getWorkHoursCapacity() {
