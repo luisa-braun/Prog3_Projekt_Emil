@@ -5,10 +5,11 @@ import java.util.InputMismatchException;
 public class MainMenu extends UserInterface{
 
 
-    private static final int VIEW_EDIT_WORKERS = 1;
-    private static final int VIEW_WORKSCHEDULE = 2;
-    private static final int GENERATE_WORKSCHEDULE = 3;
-    private static final int END_PROGRAM = 4;
+    private static final int VIEW_WORKERS = 1;
+    private static final int ADD_DELETE_WORKERS = 2;
+    private static final int VIEW_WORKSCHEDULE = 3;
+    private static final int GENERATE_WORKSCHEDULE = 4;
+    private static final int END_PROGRAM = 5;
 
     /**
      * Starts the command line user interface.
@@ -53,12 +54,14 @@ public class MainMenu extends UserInterface{
      */
     private void executeFunction(int funktion) {
         switch (funktion) {
-            case VIEW_EDIT_WORKERS:
-                //PlaceHolderWorkers();
+            case VIEW_WORKERS:
+                //placeHolderWorkers();
                 break;
             case VIEW_WORKSCHEDULE:
-                //PlaceHolderSchedule();
+                //placeHolderSchedule();
                 break;
+            case ADD_DELETE_WORKERS:
+                //placeHolderEditWorkers();
             case GENERATE_WORKSCHEDULE:
                 ShiftPlanner.generateAndShowPlan();
                 break;
@@ -74,7 +77,8 @@ public class MainMenu extends UserInterface{
 
     private void showMenu() {
         System.out.println("===== Main Menu =====");
-        System.out.println("1. View/Edit Workers");
+        System.out.println("1. View Workers");
+        System.out.println("1. Add/Delete Workers");
         System.out.println("2. View Work schedule");
         System.out.println("3. Generate Weekly Work schedule");
         System.out.println("4. End Program");
