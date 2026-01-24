@@ -1,7 +1,6 @@
 package de.emil.pr3;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class Employee {
     private final String firstName;
@@ -13,10 +12,10 @@ public class Employee {
         if (id < 0) {
             throw new IllegalArgumentException("Id cannot be negative");
         }
-        if (Objects.isNull(firstName) || firstName.isBlank()) {
+        if (Objects.isNull(firstName) || firstName.trim().isEmpty()) {
             throw new IllegalArgumentException("First name cannot be blank");
         }
-        if (Objects.isNull(lastName) || lastName.isBlank()) {
+        if (Objects.isNull(lastName) || lastName.trim().isEmpty()) {
             throw new IllegalArgumentException("Last name cannot be blank");
         }
         this.id = id;
