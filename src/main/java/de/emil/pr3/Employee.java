@@ -3,9 +3,15 @@ package de.emil.pr3;
 import java.util.Objects;
 
 public class Employee {
+    public static final String EMPLOYEE = "employee";
+    public static final String ID = "id";
+    public static final String FIRST_NAME = "first_name";
+    public static final String LAST_NAME = "last_name";
+    public static final String WORK_HOURS_CAPACITY = "work_hours_capacity";
+
+    private final int id;
     private final String firstName;
     private final String lastName;
-    private final int id;
     private int workHoursCapacity;
 
     public Employee(int id, String firstName, String lastName) throws IllegalArgumentException {
