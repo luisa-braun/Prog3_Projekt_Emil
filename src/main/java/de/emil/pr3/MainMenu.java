@@ -1,6 +1,6 @@
 package de.emil.pr3;
 
-import java.util.InputMismatchException;
+
 
 public class MainMenu extends UserInterface{
 
@@ -23,11 +23,6 @@ public class MainMenu extends UserInterface{
                 showMenu();
                 funktion = readFunction();
                 executeFunction(funktion);
-            }
-            catch(IllegalArgumentException | InputMismatchException e)
-            {
-                System.out.println(e);
-                e.printStackTrace(System.out);
             }
             catch(Exception e)
             {
