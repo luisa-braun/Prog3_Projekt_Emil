@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-public class EmployeeDatabank {
+public class EmployeeDatabank implements EmployeeDatabankHelper {
     public static final String CONNECTION_URL = "jdbc:sqlite:db/work_schedule_manager.db";
     DSLContext create;
 
