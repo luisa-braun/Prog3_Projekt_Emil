@@ -1,0 +1,14 @@
+de\emil\pr3\jooq\Tables.class
+de\emil\pr3\jooq\tables\records\EmployeeRecord.class
+de\emil\pr3\ShiftPlanner$Shift.class
+de\emil\pr3\ShiftPlanner$Worker.class
+de\emil\pr3\UserInterface.class
+de\emil\pr3\jooq\DefaultCatalog.class
+de\emil\pr3\jooq\DefaultSchema.class
+de\emil\pr3\Employee.class
+de\emil\pr3\EmployeeDatabank.class
+de\emil\pr3\ShiftPlanner.class
+de\emil\pr3\InputReader.class
+de\emil\pr3\MainMenu.class
+de\emil\pr3\jooq\tables\Employee.class
+de\emil\pr3\WorkScheduleManager.class
