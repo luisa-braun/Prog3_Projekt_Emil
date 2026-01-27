@@ -1,10 +1,9 @@
 package de.emil.pr3;
 
 import static de.emil.pr3.jooq.tables.Employee.EMPLOYEE;
+import de.emil.pr3.jooq.tables.pojos.Employee;
 
 import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Result;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class EmployeeDatabank {
-    private final String connectionUrl = "jdbc:sqlite:db/work_schedule_manager.db";
+    public static final String CONNECTION_URL = "jdbc:sqlite:db/work_schedule_manager.db";
     DSLContext create;
 
     /**
@@ -31,58 +30,71 @@ public class EmployeeDatabank {
         if (Objects.isNull(lastName) || lastName.trim().isEmpty()) {
             throw new IllegalArgumentException("Last name cannot be blank");
         }
+        Employee createdEmployee = null;
 
-        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
             create = DSL.using(connection, SQLDialect.SQLITE);
 
-            return create.insertInto(EMPLOYEE)
-                    .columns(EMPLOYEE.FIRST_NAME, EMPLOYEE.LAST_NAME)
+            createdEmployee = create.insertInto(EMPLOYEE)
+                    .columns(EMPLOYEE.FIRST_NAME,
+                            EMPLOYEE.LAST_NAME)
                     .values(firstName, lastName)
-                    .returning(EMPLOYEE.ID, EMPLOYEE.FIRST_NAME, EMPLOYEE.LAST_NAME)
+                    .returning(EMPLOYEE.ID,
+                            EMPLOYEE.FIRST_NAME,
+                            EMPLOYEE.LAST_NAME,
+                            EMPLOYEE.WORK_HOURS_CAPACITY)
                     .fetchOneInto(Employee.class);
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        return null;
+        return createdEmployee;
     }
 
     /**
      *  @param id of the employee that shall be deleted.
-     *  @throws IllegalArgumentException if Employee with that id does not exist.
+     *  @throws IllegalArgumentException if id is invalid or does not exist.
      *  @return the deleted Employee.
      */
     public Employee deleteEmployeeById(int id) throws IllegalArgumentException {
-        if (idIsValidAndExists(id)){
+        if (!idIsValidAndExists(id)){
             throw new IllegalArgumentException("ID is invalid or does not exist");
         }
-        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+        Employee deletedEmployee = null;
+
+        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
             create = DSL.using(connection, SQLDialect.SQLITE);
 
-            Employee deletedEmployee = create.deleteFrom(EMPLOYEE)
+            deletedEmployee = create.deleteFrom(EMPLOYEE)
                     .where(EMPLOYEE.ID.eq(id))
-                    .returning(EMPLOYEE.ID, EMPLOYEE.FIRST_NAME, EMPLOYEE.LAST_NAME)
+                    .returning(EMPLOYEE.ID,
+                            EMPLOYEE.FIRST_NAME,
+                            EMPLOYEE.LAST_NAME,
+                            EMPLOYEE.WORK_HOURS_CAPACITY)
                     .fetchOneInto(Employee.class);
 
             if (Objects.isNull(deletedEmployee)){
                 throw new IllegalArgumentException("Employee with ID " + id + " does not exist");
             }
-            return deletedEmployee;
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        return null;
+        return deletedEmployee;
     }
 
     /**
      *  @return a List of all Employees ordered ascending by their id.
      */
     public List<Employee> getListOfEmployees() {
-        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+        List<Employee> listOfEmployees = null;
+
+        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
             create = DSL.using(connection, SQLDialect.SQLITE);
 
-            return create.select(EMPLOYEE.ID, EMPLOYEE.FIRST_NAME, EMPLOYEE.LAST_NAME)
+            listOfEmployees = create.select(EMPLOYEE.ID,
+                            EMPLOYEE.FIRST_NAME,
+                            EMPLOYEE.LAST_NAME)
                     .from(EMPLOYEE)
                     .orderBy(EMPLOYEE.ID.asc())
                     .fetchInto(Employee.class);
@@ -90,7 +102,46 @@ public class EmployeeDatabank {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        return null;
+        return listOfEmployees;
+    }
+
+    /**
+     *  @param id of the employee of which the workHoursCapacity shall be changed.
+     *  @param workHoursCapacity it shall be changed to.
+     *  @throws IllegalArgumentException if id is invalid or does not exist.
+     *  @throws IllegalArgumentException if workHoursCapacity does not lie between 0 and 60.
+     *  @return the newly created Employee.
+     */
+    public Employee updateWorkHoursCapacity(int id, int workHoursCapacity) {
+        if (!idIsValidAndExists(id)){
+            throw new IllegalArgumentException("ID is invalid or does not exist");
+        }
+        if (workHoursCapacity < 0) {
+            throw new IllegalArgumentException("Work hours capacity cannot be negative");
+        }
+        if (workHoursCapacity > 60) {
+            throw new IllegalArgumentException("Work hours capacity cannot be more than 60 hours");
+        }
+        Employee changedEmployee = null;
+
+        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
+            create = DSL.using(connection, SQLDialect.SQLITE);
+
+            changedEmployee = create
+                    .update(EMPLOYEE)
+                    .set(EMPLOYEE.WORK_HOURS_CAPACITY,
+                            workHoursCapacity)
+                    .where(EMPLOYEE.ID.eq(id))
+                    .returning(EMPLOYEE.ID,
+                            EMPLOYEE.FIRST_NAME,
+                            EMPLOYEE.LAST_NAME,
+                            EMPLOYEE.WORK_HOURS_CAPACITY)
+                    .fetchOneInto(Employee.class);
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return changedEmployee;
     }
 
     /**
@@ -98,57 +149,21 @@ public class EmployeeDatabank {
      *  @return true if the id is valid and exists, false otherwise.
      */
     public boolean idIsValidAndExists(int id) {
-        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+        boolean result = false;
+
+        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
             create = DSL.using(connection, SQLDialect.SQLITE);
 
-            if (id <= 0) {
-                return false;
+            if (id > 0) {
+                result = create.fetchExists(
+                        create.selectOne()
+                                .from(EMPLOYEE)
+                                .where(EMPLOYEE.ID.eq(id)));
             }
-            return create.fetchExists(
-                    create.selectOne()
-                            .from(EMPLOYEE)
-                            .where(EMPLOYEE.ID.eq(id)));
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        return false;
+        return result;
     }
-
-    /*
-    public void remanence (String firstName, String lastName) throws IllegalArgumentException {
-        Result<Record> result = create.select().from(EMPLOYEE).fetch();
-
-        List<Employee> employees = new ArrayList<>();
-        for (Record r : result) {
-            Employee employee = new Employee(
-                    r.get(EMPLOYEE.ID, Integer.class),
-                    r.get(EMPLOYEE.FIRST_NAME, String.class),
-                    r.get(EMPLOYEE.LAST_NAME, String.class)
-            );
-            employees.add(employee);
-        }
-
-
-        create.insertInto(DSL.table(EMPLOYEE), //error?
-                            DSL.field(EMPLOYEE.FIRST_NAME),
-                            DSL.field(EMPLOYEE.LAST_NAME))
-                    .values(firstName, lastName)
-                    .execute();
-
-
-        create.insertInto(EMPLOYEE)
-                    .columns(EMPLOYEE.FIRST_NAME, EMPLOYEE.LAST_NAME)
-                    .values(firstName, lastName)
-                    .returning(EMPLOYEE.ID)
-                    .fetchOneInto(Employee.class);
-
-        if (workHoursCapacity < 0) {
-            throw new IllegalArgumentException("Work hours capacity cannot be negative");
-        }
-        if (workHoursCapacity > 60) {
-            throw new IllegalArgumentException("Work hours capacity cannot be more than 60 hours");
-        }
-
-    }*/
 }

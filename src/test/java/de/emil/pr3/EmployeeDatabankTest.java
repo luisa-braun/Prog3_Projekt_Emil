@@ -1,7 +1,194 @@
 package de.emil.pr3;
 
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
+import org.junit.jupiter.api.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.List;
+
+import static de.emil.pr3.jooq.tables.Employee.EMPLOYEE;
+import de.emil.pr3.jooq.tables.pojos.Employee;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeDatabankTest {
+    private static Connection connection;
+    private static DSLContext create;
+    private EmployeeDatabank databank;
 
+    @BeforeAll
+    static void setupDatabase() throws Exception {
+        connection = DriverManager.getConnection(EmployeeDatabank.CONNECTION_URL);
+        create = DSL.using(connection, SQLDialect.SQLITE);
+    }
+
+    @BeforeEach
+    void setupTestData() {
+        databank = new EmployeeDatabank();
+
+        create.insertInto(EMPLOYEE)
+                .columns(EMPLOYEE.FIRST_NAME,
+                        EMPLOYEE.LAST_NAME,
+                        EMPLOYEE.WORK_HOURS_CAPACITY)
+                .values("Max", "Mustermann", 40)
+                .values("Erika", "Neuland", null)
+                .execute();
+    }
+
+    @AfterEach
+    void cleanupTestData() {
+        create.deleteFrom(EMPLOYEE).execute();
+    }
+
+    @AfterAll
+    static void teardown() throws Exception {
+        connection.close();
+    }
+
+    @Test
+    void createNewEmployee_shouldFailOnNullFirstName() {
+        assertThrows(IllegalArgumentException.class,
+                () -> databank.createNewEmployee(null, "Doe"));
+    }
+
+    @Test
+    void createNewEmployee_shouldFailOnEmptyFirstName() {
+        assertThrows(IllegalArgumentException.class,
+                () -> databank.createNewEmployee("", "Doe"));
+    }
+
+    @Test
+    void createNewEmployee_shouldFailOnNullLastName() {
+        assertThrows(IllegalArgumentException.class,
+                () -> databank.createNewEmployee("John", null));
+    }
+
+    @Test
+    void createNewEmployee_shouldFailOnEmptyLastName() {
+        assertThrows(IllegalArgumentException.class,
+                () -> databank.createNewEmployee("John", ""));
+    }
+
+    @Test
+    void createNewEmployee_shouldCreateAndInsertEmployee() {
+        Employee employee = databank.createNewEmployee("John", "Doe");
+
+        assertNotNull(employee);
+        assertNotNull(employee.getId());
+        assertEquals("John", employee.getFirstName());
+        assertEquals("Doe", employee.getLastName());
+
+        assertEquals(3, create.fetchCount(EMPLOYEE));
+    }
+
+    @Test
+    void deleteEmployeeById_shouldFailIfIdNegative() {
+        assertThrows(IllegalArgumentException.class,
+                () -> databank.deleteEmployeeById(-5));
+    }
+
+    @Test
+    void deleteEmployeeById_shouldFailIfIdNotFound() {
+        assertThrows(IllegalArgumentException.class,
+                () -> databank.deleteEmployeeById(9999));
+    }
+
+    @Test
+    void deleteEmployeeById_shouldDeleteAndReturnEmployee() {
+        Integer id = create.select(EMPLOYEE.ID)
+                .from(EMPLOYEE)
+                .limit(1)
+                .fetchOneInto(Integer.class);
+        assertNotNull(id);
+        Employee deleted = databank.deleteEmployeeById(id);
+
+        assertNotNull(deleted);
+        assertFalse(databank.idIsValidAndExists(id));
+    }
+
+    @Test
+    void findAllEmployeesSortedById_shouldReturnFullList() {
+        List<Employee> employees = databank.getListOfEmployees();
+
+        assertEquals(2, employees.size());
+    }
+
+    @Test
+    void findAllEmployeesSortedById_shouldReturnSortedList() {
+        List<Employee> employees = databank.getListOfEmployees();
+
+        assertTrue(employees.get(0).getId() < employees.get(1).getId());
+    }
+
+    @Test
+    void updateWorkHoursCapacity_shouldFailIfEmployeeNotFound() {
+        assertThrows(IllegalArgumentException.class,
+                () -> databank.updateWorkHoursCapacity(9999, 40));
+    }
+
+    @Test
+    void updateWorkHoursCapacity_shouldFailOnNegativeCapacity() {
+        Integer id = create.select(EMPLOYEE.ID)
+                .from(EMPLOYEE)
+                .limit(1)
+                .fetchOneInto(Integer.class);
+
+        assertNotNull(id);
+        assertThrows(IllegalArgumentException.class,
+                () -> databank.updateWorkHoursCapacity(id, -5));
+    }
+
+    @Test
+    void updateWorkHoursCapacity_shouldFailOnCapacityAboveSixty() {
+        Integer id = create.select(EMPLOYEE.ID)
+                .from(EMPLOYEE)
+                .limit(1)
+                .fetchOneInto(Integer.class);
+
+        assertNotNull(id);
+        assertThrows(IllegalArgumentException.class,
+                () -> databank.updateWorkHoursCapacity(id, 65));
+    }
+
+    @Test
+    void updateWorkHoursCapacity_shouldUpdateValue() {
+        Integer id = create.select(EMPLOYEE.ID)
+                .from(EMPLOYEE)
+                .where(EMPLOYEE.FIRST_NAME.eq("Max"))
+                .fetchOneInto(Integer.class);
+
+        assertNotNull(id);
+        Employee updatedEmployee = databank.updateWorkHoursCapacity(id, 35);
+
+        assertNotNull(updatedEmployee);
+        assertEquals(35, updatedEmployee.getWorkHoursCapacity());
+    }
+
+    @Test
+    void idIsValidAndExists_shouldReturnFalseForMissingId() {
+        assertFalse(databank.idIsValidAndExists(9999));
+    }
+
+    @Test
+    void idIsValidAndExists_shouldReturnFalseIfIdZero() {
+        assertFalse(databank.idIsValidAndExists(0));
+    }
+
+    @Test
+    void idIsValidAndExists_shouldReturnFalseForNegativeId() {
+        assertFalse(databank.idIsValidAndExists(-1));
+    }
+
+    @Test
+    void idIsValidAndExists_shouldReturnTrueForExistingId() {
+        Integer id = create.select(EMPLOYEE.ID)
+                .from(EMPLOYEE)
+                .limit(1)
+                .fetchOneInto(Integer.class);
+
+        assertNotNull(id);
+        assertTrue(databank.idIsValidAndExists(id));
+    }
 }
