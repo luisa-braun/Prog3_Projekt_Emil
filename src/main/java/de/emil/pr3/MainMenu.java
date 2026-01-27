@@ -52,13 +52,14 @@ public class MainMenu extends UserInterface{
             case VIEW_WORKERS:
                 //placeHolderWorkers();
                 break;
+            case ADD_DELETE_WORKERS:
+                //placeHolderEditWorkers();
+                break;
             case VIEW_WORKSCHEDULE:
                 //placeHolderSchedule();
                 break;
-            case ADD_DELETE_WORKERS:
-                //placeHolderEditWorkers();
             case GENERATE_WORKSCHEDULE:
-                ShiftPlanner.generateAndShowPlan();
+                ShiftPlanner.showEmptyPlan();
                 break;
             case END_PROGRAM:
                 System.out.println("You have finished the Program. Goodbye.");
@@ -73,10 +74,10 @@ public class MainMenu extends UserInterface{
     private void showMenu() {
         System.out.println("===== Main Menu =====");
         System.out.println("1. View Workers");
-        System.out.println("1. Add/Delete Workers");
-        System.out.println("2. View Work schedule");
-        System.out.println("3. Generate Weekly Work schedule");
-        System.out.println("4. End Program");
+        System.out.println("2. Add/Delete Workers");
+        System.out.println("3. View Work schedule");
+        System.out.println("4. Generate Weekly Work schedule");
+        System.out.println("5. End Program");
         System.out.print(" Please select an option: ");
 
     }
