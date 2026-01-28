@@ -121,7 +121,6 @@
             <mainClass>de.emil.pr3.WorkScheduleManager</mainClass>
         </configuration>
     </plugin>
-
       <plugin>
           <groupId>org.jooq</groupId>
           <artifactId>jooq-codegen-maven</artifactId>
