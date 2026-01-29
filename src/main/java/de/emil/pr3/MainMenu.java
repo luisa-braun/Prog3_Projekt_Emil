@@ -50,10 +50,11 @@ public class MainMenu extends UserInterface{
     private void executeFunction(int funktion) {
         switch (funktion) {
             case VIEW_WORKERS:
-                //placeHolderWorkers();
+                EmployeeDatabank db = new EmployeeDatabank();
+                System.out.println(db.getListOfEmployees());
                 break;
             case ADD_DELETE_WORKERS:
-                //placeHolderEditWorkers();
+                AddEmployeeMenu.addEmployeeInformation();
                 break;
             case VIEW_WORKSCHEDULE:
                 ShiftPlanner.showEmptyPlan();
@@ -81,4 +82,5 @@ public class MainMenu extends UserInterface{
         System.out.print(" Please select an option: ");
 
     }
+
 }
