@@ -1,5 +1,5 @@
 
 package de.emil.pr3;
 
-public record Shift(String name, int duration, int requiredStaff) {
+public record Shift(String name, String identifier, String start, String end, int duration, int requiredStaff) {
 }
