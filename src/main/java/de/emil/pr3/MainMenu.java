@@ -1,6 +1,6 @@
 package de.emil.pr3;
 
-import java.util.InputMismatchException;
+
 
 public class MainMenu extends UserInterface{
 
@@ -23,11 +23,6 @@ public class MainMenu extends UserInterface{
                 showMenu();
                 funktion = readFunction();
                 executeFunction(funktion);
-            }
-            catch(IllegalArgumentException | InputMismatchException e)
-            {
-                System.out.println(e);
-                e.printStackTrace(System.out);
             }
             catch(Exception e)
             {
@@ -57,13 +52,14 @@ public class MainMenu extends UserInterface{
             case VIEW_WORKERS:
                 //placeHolderWorkers();
                 break;
+            case ADD_DELETE_WORKERS:
+                //placeHolderEditWorkers();
+                break;
             case VIEW_WORKSCHEDULE:
                 //placeHolderSchedule();
                 break;
-            case ADD_DELETE_WORKERS:
-                //placeHolderEditWorkers();
             case GENERATE_WORKSCHEDULE:
-                ShiftPlanner.generateAndShowPlan();
+                ShiftPlanner.showEmptyPlan();
                 break;
             case END_PROGRAM:
                 System.out.println("You have finished the Program. Goodbye.");
