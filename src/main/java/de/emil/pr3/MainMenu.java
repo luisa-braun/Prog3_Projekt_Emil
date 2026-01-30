@@ -6,10 +6,11 @@ public class MainMenu extends UserInterface{
 
 
     private static final int VIEW_WORKERS = 1;
-    private static final int ADD_DELETE_WORKERS = 2;
-    private static final int VIEW_WORKSCHEDULE = 3;
-    private static final int GENERATE_WORKSCHEDULE = 4;
-    private static final int END_PROGRAM = 5;
+    private static final int ADD_WORKERS = 2;
+    private static final int DELETE_WORKERS = 3;
+    private static final int VIEW_WORKSCHEDULE = 4;
+    private static final int GENERATE_WORKSCHEDULE = 5;
+    private static final int END_PROGRAM = 6;
 
     @Override
     public void start() {
@@ -43,8 +44,11 @@ public class MainMenu extends UserInterface{
                 EmployeeDatabank db = new EmployeeDatabank();
                 System.out.println(db.getListOfEmployees());
                 break;
-            case ADD_DELETE_WORKERS:
+            case ADD_WORKERS:
                 AddEmployeeMenu.addEmployeeInformation();
+                break;
+            case DELETE_WORKERS:
+                //placeHolderSchedule();
                 break;
             case VIEW_WORKSCHEDULE:
                 ShiftPlanner.showEmptyPlan();
@@ -65,10 +69,11 @@ public class MainMenu extends UserInterface{
     private void showMenu() {
         System.out.println("===== Main Menu =====");
         System.out.println("1. View Workers");
-        System.out.println("2. Add/Delete Workers");
-        System.out.println("3. View Schedule template");
-        System.out.println("4. Generate Weekly Work schedule");
-        System.out.println("5. End Program");
+        System.out.println("2. Add Workers");
+        System.out.println("3. Delete Workers");
+        System.out.println("4. View Schedule template");
+        System.out.println("5. Generate Weekly Work schedule");
+        System.out.println("6. End Program");
         System.out.print(" Please select an option: ");
 
     }
