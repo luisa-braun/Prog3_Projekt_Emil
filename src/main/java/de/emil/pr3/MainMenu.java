@@ -11,9 +11,6 @@ public class MainMenu extends UserInterface{
     private static final int GENERATE_WORKSCHEDULE = 4;
     private static final int END_PROGRAM = 5;
 
-    /**
-     * Starts the command line user interface.
-     */
     @Override
     public void start() {
         int funktion = 0;
@@ -34,19 +31,12 @@ public class MainMenu extends UserInterface{
 
     }
 
-    /**
-     * Reads the user's selected function.
-     *
-     * @return The selected function as an integer.
-     */
+
     private int readFunction() {
         return inputReader.readPositivIntegerInput();
     }
 
-    /**
-     * Executes the function selected by the user in the main menu.
-     *
-     */
+
     private void executeFunction(int funktion) {
         switch (funktion) {
             case VIEW_WORKERS:

@@ -10,11 +10,7 @@ public class InputReader {
     public InputReader(Scanner input) {
         this.input = input;
     }
-    /**
-     * Reads a positive integer input from the user.
-     *
-     * @return The positive integer entered by the user.
-     */
+
     int readPositivIntegerInput() {
 
         int result = -1;
