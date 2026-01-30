@@ -48,7 +48,9 @@ public class MainMenu extends UserInterface{
                 AddEmployeeMenu.addEmployeeInformation();
                 break;
             case DELETE_WORKERS:
-                //placeHolderSchedule();
+                EmployeeDatabank ddb = new EmployeeDatabank();
+                System.out.println(ddb.getListOfEmployees());
+                ddb.deleteEmployeeById(inputReader.readPositivIntegerInput());
                 break;
             case VIEW_WORKSCHEDULE:
                 ShiftPlanner.showEmptyPlan();
