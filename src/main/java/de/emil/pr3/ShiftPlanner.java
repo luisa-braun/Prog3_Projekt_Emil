@@ -21,7 +21,6 @@ public class ShiftPlanner {
         return shifts;
     }
 
-
     public static void showEmptyPlan() {
         String[] dayCodes = {"Mo", "Di", "Mi", "Do", "Fr"};
         String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
