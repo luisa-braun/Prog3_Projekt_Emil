@@ -187,4 +187,22 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
                 .withRenderSchema(false);
         create = DSL.using(connection, SQLDialect.SQLITE, settings);
     }
+    public void setupDatabase() {
+        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
+            DSLContext create = DSL.using(connection, SQLDialect.SQLITE);
+
+            // This command creates the table only if it's not already there
+            create.execute("""
+            CREATE TABLE IF NOT EXISTS SAVED_SCHEDULES (
+                WEEK_ID TEXT,
+                SHIFT_IDENTIFIER TEXT,
+                EMPLOYEE_ID INTEGER,
+                PRIMARY KEY (WEEK_ID, SHIFT_IDENTIFIER, EMPLOYEE_ID),
+                FOREIGN KEY(EMPLOYEE_ID) REFERENCES EMPLOYEE(ID)
+            );
+        """);
+        } catch (SQLException e) {
+            System.err.println("Database setup failed: " + e.getMessage());
+        }
+    }
 }
