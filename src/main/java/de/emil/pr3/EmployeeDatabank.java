@@ -187,11 +187,12 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
                 .withRenderSchema(false);
         create = DSL.using(connection, SQLDialect.SQLITE, settings);
     }
+
     public void setupDatabase() {
         try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
             DSLContext create = DSL.using(connection, SQLDialect.SQLITE);
 
-            // This command creates the table only if it's not already there
+
             create.execute("""
             CREATE TABLE IF NOT EXISTS SAVED_SCHEDULES (
                 WEEK_ID TEXT,
@@ -203,6 +204,23 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
         """);
         } catch (SQLException e) {
             System.err.println("Database setup failed: " + e.getMessage());
+        }
+    }
+
+    public void saveGeneratedSchedule(String weekId, List<ShiftAssignment> schedule) {
+        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
+            DSLContext createLocal = DSL.using(connection, SQLDialect.SQLITE);
+            for (ShiftAssignment sa : schedule) {
+                for (de.emil.pr3.jooq.tables.pojos.Employee emp : sa.employees()) {
+                    createLocal.insertInto(DSL.table("SAVED_SCHEDULES"))
+                            .columns(DSL.field("WEEK_ID"), DSL.field("SHIFT_IDENTIFIER"), DSL.field("EMPLOYEE_ID"))
+                            .values(weekId, sa.shift().identifier(), emp.getId())
+                            .execute();
+                }
+            }
+            System.out.println("Success: " + weekId + " is now saved in the databank.");
+        } catch (SQLException e) {
+            System.err.println("Save Error: " + e.getMessage());
         }
     }
 }
