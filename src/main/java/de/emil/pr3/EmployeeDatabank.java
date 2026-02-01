@@ -15,8 +15,21 @@ import java.util.List;
 import java.util.Objects;
 
 public class EmployeeDatabank implements EmployeeDatabankInterface {
-    public static final String CONNECTION_URL = "jdbc:sqlite:db/work_schedule_manager.db";
+    public static final String DATABANK_URL = "jdbc:sqlite:db/work_schedule_manager.db";
+    public static final String TEST_URL = "jdbc:sqlite:db/work_schedule_manager_test.db";
+    private final String connectionUrl;
     DSLContext create;
+
+    public EmployeeDatabank() {
+        this(DATABANK_URL);
+    }
+
+    EmployeeDatabank(String url) {
+        if (!url.equals(DATABANK_URL) && !url.equals(TEST_URL)){
+            System.err.println("[WARNING] The Databank url " + url + " was not recognised by the System.");
+        }
+        this.connectionUrl = url;
+    }
 
     /**
      * @param firstName of the employee that shall be created.
@@ -30,7 +43,7 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
         validateWorkHoursCapacity(workHoursCapacity);
         Employee createdEmployee = null;
 
-        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             setupDslContext(connection);
 
             createdEmployee = create.insertInto(EMPLOYEE)
@@ -59,7 +72,7 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
         validateId(id);
         Employee deletedEmployee = null;
 
-        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             setupDslContext(connection);
 
             deletedEmployee = create.deleteFrom(EMPLOYEE)
@@ -86,7 +99,7 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
     public List<Employee> getListOfEmployees() {
         List<Employee> listOfEmployees = null;
 
-        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             setupDslContext(connection);
 
             listOfEmployees = create.select(EMPLOYEE.ID,
@@ -114,7 +127,7 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
         validateWorkHoursCapacity(workHoursCapacity);
         Employee changedEmployee = null;
 
-        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             setupDslContext(connection);
 
             changedEmployee = create
@@ -139,7 +152,7 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
      * @throws IllegalArgumentException if the id is not valid does not exist.
      */
     public void validateId(int id) throws IllegalArgumentException {
-        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             setupDslContext(connection);
 
             if (id < 0) {
@@ -189,7 +202,7 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
     }
 
     public void setupDatabase() {
-        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             DSLContext create = DSL.using(connection, SQLDialect.SQLITE);
 
 
@@ -208,7 +221,7 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
     }
 
     public void saveGeneratedSchedule(String weekId, List<ShiftAssignment> schedule) {
-        try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             DSLContext createLocal = DSL.using(connection, SQLDialect.SQLITE);
             for (ShiftAssignment sa : schedule) {
                 for (de.emil.pr3.jooq.tables.pojos.Employee emp : sa.employees()) {

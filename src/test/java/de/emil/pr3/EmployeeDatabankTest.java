@@ -18,15 +18,16 @@ class EmployeeDatabankTest {
     private static DSLContext create;
     private EmployeeDatabank databank;
 
+
     @BeforeAll
     static void setupDatabase() throws Exception {
-        connection = DriverManager.getConnection(EmployeeDatabank.CONNECTION_URL);
+        connection = DriverManager.getConnection(EmployeeDatabank.TEST_URL);
         create = DSL.using(connection, SQLDialect.SQLITE);
     }
 
     @BeforeEach
     void setupTestData() {
-        databank = new EmployeeDatabank();
+        databank = new EmployeeDatabank(EmployeeDatabank.TEST_URL);
 
         create.insertInto(EMPLOYEE)
                 .columns(EMPLOYEE.FIRST_NAME,
