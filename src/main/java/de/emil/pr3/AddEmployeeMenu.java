@@ -12,7 +12,7 @@ public class AddEmployeeMenu {
         String nachname = readString("Nachname: ", reader);
 
         EmployeeDatabank db = new EmployeeDatabank();
-        db.createNewEmployee(vorname, nachname);
+        //db.createNewEmployee(vorname, nachname);
     }
 
     private static String readString(String prompt, BufferedReader reader){

@@ -15,7 +15,6 @@ public class MainMenu extends UserInterface{
     @Override
     public void start() {
         int funktion = 0;
-
         do {
             try {
                 showMenu();

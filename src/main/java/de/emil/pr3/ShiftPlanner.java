@@ -6,7 +6,6 @@ import java.util.List;
 
 public class ShiftPlanner {
 
-
     private static List<Shift> getWeeklyTemplate() {
         List<Shift> shifts = new ArrayList<>();
         shifts.add(new Shift("Morning Shift", "Mo-1", "8:00", "14:00", 6, 2));

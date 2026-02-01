@@ -50,30 +50,30 @@ class EmployeeDatabankTest {
     @Test
     void createNewEmployee_shouldFailOnNullFirstName() {
         assertThrows(IllegalArgumentException.class,
-                () -> databank.createNewEmployee(null, "Doe"));
+                () -> databank.createNewEmployee(null, "Doe", 0));
     }
 
     @Test
     void createNewEmployee_shouldFailOnEmptyFirstName() {
         assertThrows(IllegalArgumentException.class,
-                () -> databank.createNewEmployee("", "Doe"));
+                () -> databank.createNewEmployee("", "Doe", 0));
     }
 
     @Test
     void createNewEmployee_shouldFailOnNullLastName() {
         assertThrows(IllegalArgumentException.class,
-                () -> databank.createNewEmployee("John", null));
+                () -> databank.createNewEmployee("John", null, 0));
     }
 
     @Test
     void createNewEmployee_shouldFailOnEmptyLastName() {
         assertThrows(IllegalArgumentException.class,
-                () -> databank.createNewEmployee("John", ""));
+                () -> databank.createNewEmployee("John", "", 0));
     }
 
     @Test
     void createNewEmployee_shouldCreateAndInsertEmployee() {
-        Employee employee = databank.createNewEmployee("John", "Doe");
+        Employee employee = databank.createNewEmployee("John", "Doe", 0);
 
         assertNotNull(employee);
         assertNotNull(employee.getId());
@@ -105,7 +105,7 @@ class EmployeeDatabankTest {
         Employee deleted = databank.deleteEmployeeById(id);
 
         assertNotNull(deleted);
-        assertFalse(databank.idIsValidAndExists(id));
+        assertThrows(IllegalArgumentException.class, () -> databank.validateId(id));
     }
 
     @Test
@@ -167,28 +167,28 @@ class EmployeeDatabankTest {
     }
 
     @Test
-    void idIsValidAndExists_shouldReturnFalseForMissingId() {
-        assertFalse(databank.idIsValidAndExists(9999));
+    void validateId_shouldFailOnMissingId() {
+        assertThrows(IllegalArgumentException.class, () -> databank.validateId(99999));
     }
 
     @Test
-    void idIsValidAndExists_shouldReturnFalseIfIdZero() {
-        assertFalse(databank.idIsValidAndExists(0));
+    void validateId_shouldFailIfIdZero() {
+        assertThrows(IllegalArgumentException.class, () -> databank.validateId(0));
     }
 
     @Test
-    void idIsValidAndExists_shouldReturnFalseForNegativeId() {
-        assertFalse(databank.idIsValidAndExists(-1));
+    void validateId_shouldFailOnNegativeId() {
+        assertThrows(IllegalArgumentException.class, () -> databank.validateId(-1));
     }
 
     @Test
-    void idIsValidAndExists_shouldReturnTrueForExistingId() {
+    void validateId_shouldNotFailOnExistingId() {
         Integer id = create.select(EMPLOYEE.ID)
                 .from(EMPLOYEE)
                 .limit(1)
                 .fetchOneInto(Integer.class);
 
         assertNotNull(id);
-        assertTrue(databank.idIsValidAndExists(id));
+        databank.validateId(id);
     }
 }

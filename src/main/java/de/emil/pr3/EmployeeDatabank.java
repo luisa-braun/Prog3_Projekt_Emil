@@ -5,6 +5,7 @@ import de.emil.pr3.jooq.tables.pojos.Employee;
 
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
+import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
@@ -13,32 +14,30 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-public class EmployeeDatabank implements EmployeeDatabankHelper {
+public class EmployeeDatabank implements EmployeeDatabankInterface {
     public static final String CONNECTION_URL = "jdbc:sqlite:db/work_schedule_manager.db";
     DSLContext create;
 
     /**
-     *  @param firstName of the employee that shall be created.
-     *  @param lastName of the employee that shall be created.
-     *  @throws IllegalArgumentException if firstName or lastName is null or empty.
-     *  @return the newly created Employee.
+     * @param firstName of the employee that shall be created.
+     * @param lastName  of the employee that shall be created.
+     * @return the newly created Employee.
+     * @throws IllegalArgumentException if firstName or lastName is null or empty.
      */
-    public Employee createNewEmployee(String firstName, String lastName) throws IllegalArgumentException {
-        if (Objects.isNull(firstName) || firstName.trim().isEmpty()) {
-            throw new IllegalArgumentException("First name cannot be blank");
-        }
-        if (Objects.isNull(lastName) || lastName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Last name cannot be blank");
-        }
+    public Employee createNewEmployee(String firstName, String lastName, int workHoursCapacity) throws IllegalArgumentException {
+        validateName(firstName);
+        validateName(lastName);
+        validateWorkHoursCapacity(workHoursCapacity);
         Employee createdEmployee = null;
 
         try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
-            create = DSL.using(connection, SQLDialect.SQLITE);
+            setupDslContext(connection);
 
             createdEmployee = create.insertInto(EMPLOYEE)
                     .columns(EMPLOYEE.FIRST_NAME,
-                            EMPLOYEE.LAST_NAME)
-                    .values(firstName, lastName)
+                            EMPLOYEE.LAST_NAME,
+                            EMPLOYEE.WORK_HOURS_CAPACITY)
+                    .values(firstName.trim(), lastName.trim(), workHoursCapacity)
                     .returning(EMPLOYEE.ID,
                             EMPLOYEE.FIRST_NAME,
                             EMPLOYEE.LAST_NAME,
@@ -52,18 +51,16 @@ public class EmployeeDatabank implements EmployeeDatabankHelper {
     }
 
     /**
-     *  @param id of the employee that shall be deleted.
-     *  @throws IllegalArgumentException if id is invalid or does not exist.
-     *  @return the deleted Employee.
+     * @param id of the employee that shall be deleted.
+     * @return the deleted Employee.
+     * @throws IllegalArgumentException if id is invalid or does not exist.
      */
     public Employee deleteEmployeeById(int id) throws IllegalArgumentException {
-        if (!idIsValidAndExists(id)){
-            throw new IllegalArgumentException("ID is invalid or does not exist");
-        }
+        validateId(id);
         Employee deletedEmployee = null;
 
         try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
-            create = DSL.using(connection, SQLDialect.SQLITE);
+            setupDslContext(connection);
 
             deletedEmployee = create.deleteFrom(EMPLOYEE)
                     .where(EMPLOYEE.ID.eq(id))
@@ -73,7 +70,7 @@ public class EmployeeDatabank implements EmployeeDatabankHelper {
                             EMPLOYEE.WORK_HOURS_CAPACITY)
                     .fetchOneInto(Employee.class);
 
-            if (Objects.isNull(deletedEmployee)){
+            if (Objects.isNull(deletedEmployee)) {
                 throw new IllegalArgumentException("Employee with ID " + id + " does not exist");
             }
 
@@ -84,13 +81,13 @@ public class EmployeeDatabank implements EmployeeDatabankHelper {
     }
 
     /**
-     *  @return a List of all Employees ordered ascending by their id.
+     * @return a List of all Employees ordered ascending by their id.
      */
     public List<Employee> getListOfEmployees() {
         List<Employee> listOfEmployees = null;
 
         try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
-            create = DSL.using(connection, SQLDialect.SQLITE);
+            setupDslContext(connection);
 
             listOfEmployees = create.select(EMPLOYEE.ID,
                             EMPLOYEE.FIRST_NAME,
@@ -106,26 +103,19 @@ public class EmployeeDatabank implements EmployeeDatabankHelper {
     }
 
     /**
-     *  @param id of the employee of which the workHoursCapacity shall be changed.
-     *  @param workHoursCapacity it shall be changed to.
-     *  @throws IllegalArgumentException if id is invalid or does not exist.
-     *  @throws IllegalArgumentException if workHoursCapacity does not lie between 0 and 60.
-     *  @return the newly created Employee.
+     * @param id of the employee of which the workHoursCapacity shall be changed.
+     * @param workHoursCapacity it shall be changed to.
+     * @return the newly created Employee.
+     * @throws IllegalArgumentException if id is invalid or does not exist.
+     * @throws IllegalArgumentException if workHoursCapacity does not lie between 0 and 60.
      */
-    public Employee updateWorkHoursCapacity(int id, int workHoursCapacity) {
-        if (!idIsValidAndExists(id)){
-            throw new IllegalArgumentException("ID is invalid or does not exist");
-        }
-        if (workHoursCapacity < 0) {
-            throw new IllegalArgumentException("Work hours capacity cannot be negative");
-        }
-        if (workHoursCapacity > 60) {
-            throw new IllegalArgumentException("Work hours capacity cannot be more than 60 hours");
-        }
+    public Employee updateWorkHoursCapacity(int id, int workHoursCapacity) throws IllegalArgumentException {
+        validateId(id);
+        validateWorkHoursCapacity(workHoursCapacity);
         Employee changedEmployee = null;
 
         try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
-            create = DSL.using(connection, SQLDialect.SQLITE);
+            setupDslContext(connection);
 
             changedEmployee = create
                     .update(EMPLOYEE)
@@ -145,25 +135,56 @@ public class EmployeeDatabank implements EmployeeDatabankHelper {
     }
 
     /**
-     *  @param id that shall be checked.
-     *  @return true if the id is valid and exists, false otherwise.
+     * @param id that shall be validated.
+     * @throws IllegalArgumentException if the id is not valid does not exist.
      */
-    public boolean idIsValidAndExists(int id) {
-        boolean result = false;
-
+    public void validateId(int id) throws IllegalArgumentException {
         try (Connection connection = DriverManager.getConnection(CONNECTION_URL)) {
-            create = DSL.using(connection, SQLDialect.SQLITE);
+            setupDslContext(connection);
 
-            if (id > 0) {
-                result = create.fetchExists(
-                        create.selectOne()
-                                .from(EMPLOYEE)
-                                .where(EMPLOYEE.ID.eq(id)));
+            if (id < 0) {
+                throw new IllegalArgumentException("ID can not be negative");
             }
+            boolean idExists = create.fetchExists(
+                    create.selectOne()
+                            .from(EMPLOYEE)
+                            .where(EMPLOYEE.ID.eq(id)));
 
+            if (!idExists) {
+                throw new IllegalArgumentException("ID is invalid or does not exist");
+            }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        return result;
+    }
+
+    /**
+     * @param name that shall be validated.
+     * @throws IllegalArgumentException if the name is null or empty.
+     */
+    private void validateName(String name) throws IllegalArgumentException {
+        if (Objects.isNull(name) || name.trim().isBlank()) {
+            throw new IllegalArgumentException("Name cannot be blank");
+        }
+    }
+
+    /**
+     * @param workHoursCapacity that shall be validated.
+     * @throws IllegalArgumentException if the workHoursCapacity does not lie between 0 and 60.
+     */
+    private void validateWorkHoursCapacity(int workHoursCapacity) throws IllegalArgumentException {
+        if (workHoursCapacity < 0) {
+            throw new IllegalArgumentException("Work hours capacity cannot be negative");
+        }
+        if(workHoursCapacity >60) {
+            throw new IllegalArgumentException("Work hours capacity cannot be more than 60 hours");
+        }
+    }
+
+    private void setupDslContext(Connection connection) {
+        Settings settings = new Settings()
+                .withExecuteLogging(false)
+                .withRenderSchema(false);
+        create = DSL.using(connection, SQLDialect.SQLITE, settings);
     }
 }
