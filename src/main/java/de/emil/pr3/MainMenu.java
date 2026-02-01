@@ -31,11 +31,9 @@ public class MainMenu extends UserInterface{
 
     }
 
-
     private int readFunction() {
         return inputReader.readPositivIntegerInput();
     }
-
 
     private void executeFunction(int funktion) {
         switch (funktion) {
@@ -65,7 +63,6 @@ public class MainMenu extends UserInterface{
                 break;
         }
     }
-
 
     private void showMenu() {
         System.out.println("===== Main Menu =====");

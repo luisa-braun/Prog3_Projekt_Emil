@@ -138,7 +138,7 @@
           <configuration>
               <jdbc>
                   <driver>org.sqlite.JDBC</driver>
-                  <url>jdbc:sqlite:${project.basedir}/db/work_schedule_manager.db</url>
+                  <url>jdbc:sqlite:${maven.multiModuleProjectDirectory}/db/work_schedule_manager.db</url>
               </jdbc>
               <generator>
                   <database>
