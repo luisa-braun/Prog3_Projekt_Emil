@@ -201,6 +201,10 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
         create = DSL.using(connection, SQLDialect.SQLITE, settings);
     }
 
+    /**
+     * Initializes the database by creating the SAVED_SCHEDULES table if it does not exist.
+     * This table links specific weeks to shift identifiers and employee IDs.
+     */
     public void setupDatabase() {
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             DSLContext create = DSL.using(connection, SQLDialect.SQLITE);
@@ -220,6 +224,11 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
         }
     }
 
+    /**
+     * Saves a generated schedule into the permanent SQLite databank.
+     * @param weekId The name of the week (e.g., "Week 1").
+     * @param schedule The list of assignments to save.
+     */
     public void saveGeneratedSchedule(String weekId, List<ShiftAssignment> schedule) {
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             DSLContext createLocal = DSL.using(connection, SQLDialect.SQLITE);
@@ -236,4 +245,5 @@ public class EmployeeDatabank implements EmployeeDatabankInterface {
             System.err.println("Save Error: " + e.getMessage());
         }
     }
+
 }
