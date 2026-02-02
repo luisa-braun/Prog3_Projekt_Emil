@@ -5,6 +5,7 @@ import de.emil.pr3.databases.EmployeeDatabase;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 
 public class AddEmployeeMenu {
 
@@ -15,7 +16,7 @@ public class AddEmployeeMenu {
 
         try(EmployeeDatabase db = new EmployeeDatabase()) {
             db.createNewEmployee(firstName, lastName, 0);
-        } catch (Exception e){
+        } catch (IllegalArgumentException | SQLException e){
             System.out.println(e.getMessage());
         }
     }

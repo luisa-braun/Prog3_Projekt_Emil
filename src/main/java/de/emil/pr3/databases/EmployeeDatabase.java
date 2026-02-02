@@ -18,20 +18,7 @@ public class EmployeeDatabase extends Database implements EmployeeDatabaseInterf
 
     EmployeeDatabase(String url) throws SQLException {
         super(url);
-        create.createTableIfNotExists(EMPLOYEE)
-                .column(EMPLOYEE.ID,
-                        INTEGER.identity(true))
-                .column(EMPLOYEE.FIRST_NAME,
-                        VARCHAR.nullable(false))
-                .column(EMPLOYEE.LAST_NAME,
-                        VARCHAR.nullable(false))
-                .column(EMPLOYEE.WORK_HOURS_CAPACITY,
-                        INTEGER)
-                .constraints(primaryKey(EMPLOYEE.ID),
-                        check(trim(EMPLOYEE.FIRST_NAME).ne("")),
-                        check(trim(EMPLOYEE.LAST_NAME).ne("")),
-                        check(EMPLOYEE.WORK_HOURS_CAPACITY.between(0, 60)))
-                .execute();
+        setupEmployeeTable();
     }
 
     /**
@@ -151,5 +138,22 @@ public class EmployeeDatabase extends Database implements EmployeeDatabaseInterf
         if(workHoursCapacity >60) {
             throw new IllegalArgumentException("Work hours capacity cannot be more than 60 hours");
         }
+    }
+
+    private void setupEmployeeTable() {
+        create.createTableIfNotExists(EMPLOYEE)
+                .column(EMPLOYEE.ID,
+                        INTEGER.identity(true))
+                .column(EMPLOYEE.FIRST_NAME,
+                        VARCHAR.nullable(false))
+                .column(EMPLOYEE.LAST_NAME,
+                        VARCHAR.nullable(false))
+                .column(EMPLOYEE.WORK_HOURS_CAPACITY,
+                        INTEGER)
+                .constraints(primaryKey(EMPLOYEE.ID),
+                        check(trim(EMPLOYEE.FIRST_NAME).ne("")),
+                        check(trim(EMPLOYEE.LAST_NAME).ne("")),
+                        check(EMPLOYEE.WORK_HOURS_CAPACITY.between(0, 60)))
+                .execute();
     }
 }

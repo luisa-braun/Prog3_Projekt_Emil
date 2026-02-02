@@ -3,6 +3,8 @@ package de.emil.pr3;
 
 import de.emil.pr3.databases.EmployeeDatabase;
 
+import java.sql.SQLException;
+
 public class MainMenu extends UserInterface{
 
 
@@ -41,7 +43,7 @@ public class MainMenu extends UserInterface{
             case VIEW_WORKERS:
                 try(EmployeeDatabase db = new EmployeeDatabase()) {
                     System.out.println(db.getListOfEmployees());
-                } catch (Exception e){
+                } catch (IllegalArgumentException | SQLException e){
                     System.out.println(e.getMessage());
                 }
                 break;
@@ -52,7 +54,7 @@ public class MainMenu extends UserInterface{
                 try(EmployeeDatabase db = new EmployeeDatabase()) {
                     System.out.println(db.getListOfEmployees());
                     db.deleteEmployeeById(inputReader.readPositivIntegerInput());
-                } catch (Exception e){
+                } catch (IllegalArgumentException | SQLException e){
                     System.out.println(e.getMessage());
                 }
                 break;

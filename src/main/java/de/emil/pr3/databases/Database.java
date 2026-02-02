@@ -12,6 +12,7 @@ import java.sql.SQLException;
 public abstract class Database implements AutoCloseable {
     public static final String DATABASE_URL = "jdbc:sqlite:db/work_schedule_manager.db";
     public static final String TEST_URL = "jdbc:sqlite::memory:";
+    private final String enableForeignKeysCommand = "PRAGMA foreign_keys = ON";
     final String connectionUrl;
     final Connection connection;
     final DSLContext create;
@@ -30,14 +31,19 @@ public abstract class Database implements AutoCloseable {
                 .withExecuteLogging(false)
                 .withRenderSchema(false);
         this.create = DSL.using(this.connection, SQLDialect.SQLITE, settings);
+        this.create.execute(enableForeignKeysCommand);
     }
 
     abstract void validateId(int id) throws IllegalArgumentException;
 
     @Override
-    public void close() throws Exception{
+    public void close() throws SQLException {
         if (connection != null && !connection.isClosed()) {
-            connection.close();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new SQLException("error while closing database connection", e);
+            }
         }
     }
 }
