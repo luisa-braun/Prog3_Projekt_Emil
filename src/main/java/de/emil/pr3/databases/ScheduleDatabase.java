@@ -34,6 +34,8 @@ public class ScheduleDatabase extends Databank {
                 FOREIGN KEY(EMPLOYEE_ID) REFERENCES EMPLOYEE(ID)
             );
         """);
+
+
         } catch (SQLException e) {
             System.err.println("Database setup failed: " + e.getMessage());
         }
