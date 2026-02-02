@@ -17,9 +17,7 @@ public class WorkScheduleGeneratorTest {
                 new Employee(2, "Erika", "Musterfrau", 40)
         );
 
-        generator = new WorkScheduleGenerator(
-                new FakeEmployeeDatabank(employees)
-        );
+        generator = new WorkScheduleGenerator(employees);
     }
 
     @Test

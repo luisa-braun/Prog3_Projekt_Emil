@@ -1,6 +1,7 @@
 package de.emil.pr3;
 
 
+import de.emil.pr3.databanks.EmployeeDatabank;
 
 public class MainMenu extends UserInterface{
 
@@ -38,16 +39,22 @@ public class MainMenu extends UserInterface{
     private void executeFunction(int funktion) {
         switch (funktion) {
             case VIEW_WORKERS:
-                EmployeeDatabank db = new EmployeeDatabank();
-                System.out.println(db.getListOfEmployees());
+                try(EmployeeDatabank db = new EmployeeDatabank()) {
+                    System.out.println(db.getListOfEmployees());
+                } catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
                 break;
             case ADD_WORKERS:
                 AddEmployeeMenu.addEmployeeInformation();
                 break;
             case DELETE_WORKERS:
-                EmployeeDatabank ddb = new EmployeeDatabank();
-                System.out.println(ddb.getListOfEmployees());
-                ddb.deleteEmployeeById(inputReader.readPositivIntegerInput());
+                try(EmployeeDatabank db = new EmployeeDatabank()) {
+                    System.out.println(db.getListOfEmployees());
+                    db.deleteEmployeeById(inputReader.readPositivIntegerInput());
+                } catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
                 break;
             case VIEW_WORKSCHEDULE:
                 ShiftPlanner.showEmptyPlan();

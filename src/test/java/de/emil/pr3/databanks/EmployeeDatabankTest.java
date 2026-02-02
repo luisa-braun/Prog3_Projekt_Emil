@@ -1,34 +1,27 @@
-package de.emil.pr3;
+package de.emil.pr3.databanks;
 
 import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
 import org.junit.jupiter.api.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.List;
 
 import static de.emil.pr3.jooq.tables.Employee.EMPLOYEE;
 import de.emil.pr3.jooq.tables.pojos.Employee;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeDatabankTest {
-    private static Connection connection;
+    private static EmployeeDatabank databank;
     private static DSLContext create;
-    private EmployeeDatabank databank;
-
 
     @BeforeAll
     static void setupDatabase() throws Exception {
-        connection = DriverManager.getConnection(EmployeeDatabank.TEST_URL);
-        create = DSL.using(connection, SQLDialect.SQLITE);
+        databank = new EmployeeDatabank(EmployeeDatabank.TEST_URL);
+        create = databank.create;
     }
 
     @BeforeEach
     void setupTestData() {
-        databank = new EmployeeDatabank(EmployeeDatabank.TEST_URL);
-
         create.insertInto(EMPLOYEE)
                 .columns(EMPLOYEE.FIRST_NAME,
                         EMPLOYEE.LAST_NAME,
@@ -45,7 +38,7 @@ class EmployeeDatabankTest {
 
     @AfterAll
     static void teardown() throws Exception {
-        connection.close();
+        databank.close();
     }
 
     @Test
