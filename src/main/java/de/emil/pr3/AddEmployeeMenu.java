@@ -10,11 +10,11 @@ public class AddEmployeeMenu {
 
     public static void addEmployeeInformation() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String vorname = readString("Vorname: ", reader);
-        String nachname = readString("Nachname: ", reader);
+        String firstName = readString("Vorname: ", reader);
+        String lastName = readString("Nachname: ", reader);
 
         try(EmployeeDatabank db = new EmployeeDatabank()) {
-            db.createNewEmployee(vorname, nachname, 0);
+            db.createNewEmployee(firstName, lastName, 0);
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
