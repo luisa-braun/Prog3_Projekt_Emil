@@ -1,11 +1,11 @@
-package de.emil.pr3.databanks;
+package de.emil.pr3.databases;
 
 import de.emil.pr3.jooq.tables.pojos.Employee;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface EmployeeDatabankInterface {
+public interface EmployeeDatabaseInterface {
 
     Employee createNewEmployee(String firstName, String lastName, int workHoursCapacity) throws IllegalArgumentException, SQLException;
 

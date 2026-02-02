@@ -1,4 +1,4 @@
-package de.emil.pr3.databanks;
+package de.emil.pr3.databases;
 
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.*;
@@ -10,13 +10,13 @@ import de.emil.pr3.jooq.tables.pojos.Employee;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EmployeeDatabankTest {
-    private static EmployeeDatabank databank;
+class EmployeeDatabaseTest {
+    private static EmployeeDatabase databank;
     private static DSLContext create;
 
     @BeforeAll
     static void setupDatabase() throws Exception {
-        databank = new EmployeeDatabank(EmployeeDatabank.TEST_URL);
+        databank = new EmployeeDatabase(EmployeeDatabase.TEST_URL);
         create = databank.create;
     }
 

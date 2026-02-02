@@ -1,7 +1,7 @@
 package de.emil.pr3;
 
 
-import de.emil.pr3.databanks.EmployeeDatabank;
+import de.emil.pr3.databases.EmployeeDatabase;
 
 public class MainMenu extends UserInterface{
 
@@ -39,7 +39,7 @@ public class MainMenu extends UserInterface{
     private void executeFunction(int funktion) {
         switch (funktion) {
             case VIEW_WORKERS:
-                try(EmployeeDatabank db = new EmployeeDatabank()) {
+                try(EmployeeDatabase db = new EmployeeDatabase()) {
                     System.out.println(db.getListOfEmployees());
                 } catch (Exception e){
                     System.out.println(e.getMessage());
@@ -49,7 +49,7 @@ public class MainMenu extends UserInterface{
                 AddEmployeeMenu.addEmployeeInformation();
                 break;
             case DELETE_WORKERS:
-                try(EmployeeDatabank db = new EmployeeDatabank()) {
+                try(EmployeeDatabase db = new EmployeeDatabase()) {
                     System.out.println(db.getListOfEmployees());
                     db.deleteEmployeeById(inputReader.readPositivIntegerInput());
                 } catch (Exception e){

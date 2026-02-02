@@ -1,4 +1,4 @@
-package de.emil.pr3.databanks;
+package de.emil.pr3.databases;
 
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;

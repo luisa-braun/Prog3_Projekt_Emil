@@ -1,4 +1,4 @@
-package de.emil.pr3.databanks;
+package de.emil.pr3.databases;
 
 import static de.emil.pr3.jooq.tables.Employee.EMPLOYEE;
 import static org.jooq.impl.DSL.*;
@@ -10,13 +10,13 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-public class EmployeeDatabank extends Databank implements EmployeeDatabankInterface {
+public class EmployeeDatabase extends Databank implements EmployeeDatabaseInterface {
 
-    public EmployeeDatabank() throws SQLException {
+    public EmployeeDatabase() throws SQLException {
         this(DATABANK_URL);
     }
 
-    EmployeeDatabank(String url) throws SQLException {
+    EmployeeDatabase(String url) throws SQLException {
         super(url);
         create.createTableIfNotExists(EMPLOYEE)
                 .column(EMPLOYEE.ID,

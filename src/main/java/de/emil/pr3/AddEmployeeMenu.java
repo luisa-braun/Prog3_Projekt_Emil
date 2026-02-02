@@ -1,6 +1,6 @@
 package de.emil.pr3;
 
-import de.emil.pr3.databanks.EmployeeDatabank;
+import de.emil.pr3.databases.EmployeeDatabase;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +13,7 @@ public class AddEmployeeMenu {
         String firstName = readString("Vorname: ", reader);
         String lastName = readString("Nachname: ", reader);
 
-        try(EmployeeDatabank db = new EmployeeDatabank()) {
+        try(EmployeeDatabase db = new EmployeeDatabase()) {
             db.createNewEmployee(firstName, lastName, 0);
         } catch (Exception e){
             System.out.println(e.getMessage());

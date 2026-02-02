@@ -1,4 +1,4 @@
-package de.emil.pr3.databanks;
+package de.emil.pr3.databases;
 
 import de.emil.pr3.ShiftAssignment;
 import org.jooq.DSLContext;
@@ -10,13 +10,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ScheduleDatabank extends Databank {
+public class ScheduleDatabase extends Databank {
 
-    public ScheduleDatabank() throws SQLException {
+    public ScheduleDatabase() throws SQLException {
         super();
     }
 
-    ScheduleDatabank(String url)  throws SQLException {
+    ScheduleDatabase(String url)  throws SQLException {
         super(url);
     }
 
