@@ -9,19 +9,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class Databank implements AutoCloseable {
-    public static final String DATABANK_URL = "jdbc:sqlite:db/work_schedule_manager.db";
+public abstract class Database implements AutoCloseable {
+    public static final String DATABASE_URL = "jdbc:sqlite:db/work_schedule_manager.db";
     public static final String TEST_URL = "jdbc:sqlite::memory:";
     final String connectionUrl;
     final Connection connection;
     final DSLContext create;
 
-    public Databank() throws SQLException {
-        this(DATABANK_URL);
+    public Database() throws SQLException {
+        this(DATABASE_URL);
     }
 
-    Databank(String url) throws SQLException {
-        if (!url.equals(DATABANK_URL) && !url.equals(TEST_URL)){
+    Database(String url) throws SQLException {
+        if (!url.equals(DATABASE_URL) && !url.equals(TEST_URL)){
             System.err.println("[WARNING] The Databank url " + url + " was not recognised by the System.");
         }
         this.connectionUrl = url;

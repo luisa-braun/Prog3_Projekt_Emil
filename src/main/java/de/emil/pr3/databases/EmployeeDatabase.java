@@ -10,10 +10,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-public class EmployeeDatabase extends Databank implements EmployeeDatabaseInterface {
+public class EmployeeDatabase extends Database implements EmployeeDatabaseInterface {
 
     public EmployeeDatabase() throws SQLException {
-        this(DATABANK_URL);
+        this(DATABASE_URL);
     }
 
     EmployeeDatabase(String url) throws SQLException {

@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ScheduleDatabase extends Databank {
+public class ScheduleDatabase extends Database {
 
     public ScheduleDatabase() throws SQLException {
         super();
