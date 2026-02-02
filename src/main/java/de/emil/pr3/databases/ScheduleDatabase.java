@@ -47,19 +47,13 @@ public class ScheduleDatabase extends Database {
 */
 
         public void OLDsaveGeneratedSchedule(String weekId, List<ShiftAssignment> schedule) {
-            try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-                DSLContext createLocal = DSL.using(connection, SQLDialect.SQLITE);
-                for (ShiftAssignment sa : schedule) {
-                    for (de.emil.pr3.jooq.tables.pojos.Employee emp : sa.employees()) {
-                        createLocal.insertInto(DSL.table("SAVED_SCHEDULES"))
-                                .columns(DSL.field("WEEK_ID"), DSL.field("SHIFT_IDENTIFIER"), DSL.field("EMPLOYEE_ID"))
-                                .values(weekId, sa.shift().identifier(), emp.getId())
-                                .execute();
-                    }
+            for (ShiftAssignment sa : schedule) {
+                for (de.emil.pr3.jooq.tables.pojos.Employee emp : sa.employees()) {
+                    create.insertInto(DSL.table("SAVED_SCHEDULES"))
+                            .columns(DSL.field("WEEK_ID"), DSL.field("SHIFT_IDENTIFIER"), DSL.field("EMPLOYEE_ID"))
+                            .values(weekId, sa.shift().identifier(), emp.getId())
+                            .execute();
                 }
-                System.out.println("Success: " + weekId + " is now saved in the databank.");
-            } catch (SQLException e) {
-                System.err.println("Save Error: " + e.getMessage());
             }
         }
 
