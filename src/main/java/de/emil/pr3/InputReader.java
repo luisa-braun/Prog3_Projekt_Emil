@@ -1,32 +1,29 @@
 package de.emil.pr3;
 
 import java.util.Scanner;
-import java.util.NoSuchElementException;
 
 public class InputReader {
+    private final Scanner scanner;
 
-    private final Scanner input;
-
-    public InputReader(Scanner input) {
-        this.input = input;
+    public InputReader(Scanner scanner) {
+        this.scanner = scanner;
     }
 
-    int readPositivIntegerInput() {
-
+    public String readString(String prompt) {
+        System.out.print(prompt);
+        return scanner.next();
+    }
+    public int readPositiveInteger() {
         int result = -1;
-        String line;
-        while(result < 0) {
+        while (result < 0) {
             try {
-                line = input.next();
+                String line = scanner.next();
                 result = Integer.parseInt(line);
-                if(result < 0)
-                    System.out.println("You entered a negative integer. Please try again.");
-            }
-            catch(NumberFormatException e) {
-                System.out.println("Error – Please enter an integer value");
-            }
-            catch(NoSuchElementException | IllegalStateException e) {
-                System.out.println(e);
+                if (result < 0) {
+                    System.out.println("Please enter a positive number.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Please enter a valid integer.");
             }
         }
         return result;

@@ -1,32 +1,21 @@
 package de.emil.pr3;
 
 import de.emil.pr3.databases.EmployeeDatabase;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
+
 
 public class AddEmployeeMenu {
 
-    public static void addEmployeeInformation() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String firstName = readString("Vorname: ", reader);
-        String lastName = readString("Nachname: ", reader);
 
-        try(EmployeeDatabase db = new EmployeeDatabase()) {
+    public static void addEmployeeInformation(InputReader reader) {
+        String firstName = reader.readString("Vorname: ");
+        String lastName = reader.readString("Nachname: ");
+
+        try (EmployeeDatabase db = new EmployeeDatabase()) {
             db.createNewEmployee(firstName, lastName, 0);
-        } catch (IllegalArgumentException | SQLException e){
+            System.out.println("Employee added successfully!");
+        } catch (IllegalArgumentException | SQLException e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    private static String readString(String prompt, BufferedReader reader){
-        System.out.print(prompt);
-        try {
-            return reader.readLine();
-        } catch (IOException e) {
-            throw new RuntimeException("Fehler beim Lesen der Eingabe!", e);
         }
     }
 }

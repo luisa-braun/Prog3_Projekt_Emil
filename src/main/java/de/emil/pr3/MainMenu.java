@@ -35,7 +35,7 @@ public class MainMenu extends UserInterface{
     }
 
     private int readFunction() {
-        return inputReader.readPositivIntegerInput();
+        return inputReader.readPositiveInteger();
     }
 
     private void executeFunction(int funktion) {
@@ -48,12 +48,13 @@ public class MainMenu extends UserInterface{
                 }
                 break;
             case ADD_WORKERS:
-                AddEmployeeMenu.addEmployeeInformation();
+                AddEmployeeMenu.addEmployeeInformation(this.inputReader);
+
                 break;
             case DELETE_WORKERS:
                 try(EmployeeDatabase db = new EmployeeDatabase()) {
                     System.out.println(db.getListOfEmployees());
-                    db.deleteEmployeeById(inputReader.readPositivIntegerInput());
+                    db.deleteEmployeeById(inputReader.readPositiveInteger());
                 } catch (IllegalArgumentException | SQLException e){
                     System.out.println(e.getMessage());
                 }
