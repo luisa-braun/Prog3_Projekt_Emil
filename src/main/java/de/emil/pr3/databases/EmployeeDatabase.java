@@ -70,7 +70,8 @@ public class EmployeeDatabase extends Database implements EmployeeDatabaseInterf
     public List<Employee> getListOfEmployees() {
         return create.select(EMPLOYEE.ID,
                             EMPLOYEE.FIRST_NAME,
-                            EMPLOYEE.LAST_NAME)
+                            EMPLOYEE.LAST_NAME,
+                            EMPLOYEE.WORK_HOURS_CAPACITY)
                     .from(EMPLOYEE)
                     .orderBy(EMPLOYEE.ID.asc())
                     .fetchInto(Employee.class);
@@ -135,7 +136,7 @@ public class EmployeeDatabase extends Database implements EmployeeDatabaseInterf
         if (workHoursCapacity < 0) {
             throw new IllegalArgumentException("Work hours capacity cannot be negative");
         }
-        if(workHoursCapacity >60) {
+        if(workHoursCapacity > 60) {
             throw new IllegalArgumentException("Work hours capacity cannot be more than 60 hours");
         }
     }
