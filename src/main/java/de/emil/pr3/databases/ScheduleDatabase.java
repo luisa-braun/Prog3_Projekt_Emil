@@ -12,8 +12,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static de.emil.pr3.jooq.tables.Employee.EMPLOYEE;
-import static de.emil.pr3.jooq.tables.Shift.SHIFT;
-import static de.emil.pr3.jooq.tables.ShiftEmployee.SHIFT_EMPLOYEE;
+//import static de.emil.pr3.jooq.tables.Shift.SHIFT;
+//import static de.emil.pr3.jooq.tables.ShiftEmployee.SHIFT_EMPLOYEE;
 import static org.jooq.impl.DSL.*;
 import static org.jooq.impl.SQLDataType.*;
 
@@ -24,10 +24,10 @@ public class ScheduleDatabase extends Database {
         this(DATABASE_URL);
     }
 
-    ScheduleDatabase(String url)  throws SQLException {
+    ScheduleDatabase(String url) throws SQLException {
         super(url);
-        setupShiftTable();
-        setupShiftEmployeeTable();
+        //setupShiftTable();
+        //setupShiftEmployeeTable();
     }
 
 
@@ -46,20 +46,20 @@ public class ScheduleDatabase extends Database {
             shifts.add(new Shift("Afternoon Shift", "Fr-2", "14:30", "18:30", 4, 1));
 */
 
-        public void OLDsaveGeneratedSchedule(String weekId, List<ShiftAssignment> schedule) {
-            for (ShiftAssignment sa : schedule) {
-                for (de.emil.pr3.jooq.tables.pojos.Employee emp : sa.employees()) {
-                    create.insertInto(DSL.table("SAVED_SCHEDULES"))
-                            .columns(DSL.field("WEEK_ID"), DSL.field("SHIFT_IDENTIFIER"), DSL.field("EMPLOYEE_ID"))
-                            .values(weekId, sa.shift().identifier(), emp.getId())
-                            .execute();
-                }
+    public void OLDsaveGeneratedSchedule(String weekId, List<ShiftAssignment> schedule) {
+        for (ShiftAssignment sa : schedule) {
+            for (de.emil.pr3.jooq.tables.pojos.Employee emp : sa.employees()) {
+                create.insertInto(DSL.table("SAVED_SCHEDULES"))
+                        .columns(DSL.field("WEEK_ID"), DSL.field("SHIFT_IDENTIFIER"), DSL.field("EMPLOYEE_ID"))
+                        .values(weekId, sa.shift().identifier(), emp.getId())
+                        .execute();
             }
         }
+    }
 
-        @Override
-        void validateId(int id) throws IllegalArgumentException {
-
+    @Override
+    void validateId(int id) throws IllegalArgumentException {
+/*
         }
         private void setupShiftTable() {
             create.createTableIfNotExists(SHIFT)
@@ -92,5 +92,6 @@ public class ScheduleDatabase extends Database {
                                     .references(EMPLOYEE, EMPLOYEE.ID)
                                     .onDeleteCascade())
                     .execute();
-        }
+        }*/
     }
+}
