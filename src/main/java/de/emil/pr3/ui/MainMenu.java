@@ -50,18 +50,18 @@ public class MainMenu extends UserInterface{
                 break;
             case ADD_WORKERS:
                 AddEmployeeMenu.addEmployeeInformation(this.inputReader);
-
                 break;
             case DELETE_WORKERS:
                 try(EmployeeDatabase db = new EmployeeDatabase()) {
                     System.out.println(db.getListOfEmployees());
+                    // TODO: noch Befehl ausgeben, dass ID eingegeben werden soll
                     db.deleteEmployeeById(inputReader.readPositiveInteger());
                 } catch (IllegalArgumentException | SQLException e){
                     System.out.println(e.getMessage());
                 }
                 break;
             case VIEW_WORKSCHEDULE:
-                WorkScheduleWeeklyTemplate.showEmptyPlan();
+                WorkSchedulePrinter.showEmptyPlan();
                 break;
             case GENERATE_WORKSCHEDULE:
                 //placeHolderSchedule();
