@@ -124,7 +124,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.3.0</version>
         <configuration>
-          <mainClass>de.emil.pr3.WorkScheduleManager</mainClass>
+          <mainClass>de.emil.pr3.ui.WorkScheduleManager</mainClass>
         </configuration>
       </plugin>
       <plugin>

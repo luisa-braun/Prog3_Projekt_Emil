@@ -1,21 +1,14 @@
 package de.emil.pr3.databases;
 
-import de.emil.pr3.ShiftAssignment;
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
+import de.emil.pr3.shift.ShiftAssignment;
 import org.jooq.impl.DSL;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static de.emil.pr3.jooq.tables.Employee.EMPLOYEE;
 //import static de.emil.pr3.jooq.tables.Shift.SHIFT;
 //import static de.emil.pr3.jooq.tables.ShiftEmployee.SHIFT_EMPLOYEE;
-import static org.jooq.impl.DSL.*;
-import static org.jooq.impl.SQLDataType.*;
+
 
 public class ScheduleDatabase extends Database {
     private String[] weekDays = {"MONTAG", "DIENSTAG", "MITTWOCH", "DONNERSTAG", "FREITAG", "SAMSTAG", "SONNTAG"};

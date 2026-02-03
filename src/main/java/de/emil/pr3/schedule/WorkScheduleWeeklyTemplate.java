@@ -1,10 +1,11 @@
-package de.emil.pr3;
+package de.emil.pr3.schedule;
+
+import de.emil.pr3.shift.Shift;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class ShiftPlanner {
+public class WorkScheduleWeeklyTemplate {
 
     private static List<Shift> getWeeklyTemplate() {
         List<Shift> shifts = new ArrayList<>();

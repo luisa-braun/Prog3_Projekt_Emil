@@ -1,6 +1,7 @@
-package de.emil.pr3;
+package de.emil.pr3.ui;
 
 import de.emil.pr3.databases.EmployeeDatabase;
+
 import java.sql.SQLException;
 
 

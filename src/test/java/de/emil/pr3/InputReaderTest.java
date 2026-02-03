@@ -1,6 +1,8 @@
 package de.emil.pr3;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import de.emil.pr3.ui.InputReader;
 import org.junit.jupiter.api.Test;
 import java.util.Scanner;
 

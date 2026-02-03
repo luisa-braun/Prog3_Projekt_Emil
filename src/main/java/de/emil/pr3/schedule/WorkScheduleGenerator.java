@@ -1,11 +1,14 @@
-package de.emil.pr3;
+package de.emil.pr3.schedule;
 
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.emil.pr3.employee.EmployeeIterator;
 import de.emil.pr3.jooq.tables.pojos.Employee;
+import de.emil.pr3.shift.Shift;
+import de.emil.pr3.shift.ShiftAssignment;
 
 public class WorkScheduleGenerator {
 

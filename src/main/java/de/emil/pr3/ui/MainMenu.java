@@ -1,6 +1,7 @@
-package de.emil.pr3;
+package de.emil.pr3.ui;
 
 
+import de.emil.pr3.schedule.WorkScheduleWeeklyTemplate;
 import de.emil.pr3.databases.EmployeeDatabase;
 
 import java.sql.SQLException;
@@ -60,7 +61,7 @@ public class MainMenu extends UserInterface{
                 }
                 break;
             case VIEW_WORKSCHEDULE:
-                ShiftPlanner.showEmptyPlan();
+                WorkScheduleWeeklyTemplate.showEmptyPlan();
                 break;
             case GENERATE_WORKSCHEDULE:
                 //placeHolderSchedule();

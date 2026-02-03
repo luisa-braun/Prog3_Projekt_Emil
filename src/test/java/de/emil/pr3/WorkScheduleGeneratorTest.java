@@ -1,5 +1,8 @@
 package de.emil.pr3;
 
+import de.emil.pr3.schedule.WorkScheduleGenerator;
+import de.emil.pr3.shift.Shift;
+import de.emil.pr3.shift.ShiftAssignment;
 import org.junit.jupiter.api.BeforeEach;
 import de.emil.pr3.jooq.tables.pojos.Employee;
 import org.junit.jupiter.api.Test;

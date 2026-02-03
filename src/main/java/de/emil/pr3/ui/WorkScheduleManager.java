@@ -1,4 +1,4 @@
-package de.emil.pr3;
+package de.emil.pr3.ui;
 
 public class WorkScheduleManager {
 
