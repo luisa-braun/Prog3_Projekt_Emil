@@ -20,6 +20,18 @@ public class WorkScheduleGenerator {
     }
 
     public List<ShiftAssignment> generateWeeklySchedule(List<Shift> shifts) {
+
+        int maxRequired = shifts.stream()
+                .mapToInt(Shift::requiredStaff)
+                .max()
+                .orElse(0);
+
+        if (employees.size() < maxRequired) {
+            throw new IllegalStateException(
+                    "Nicht genügend Mitarbeiter. Maximal benötigt: " + maxRequired + ", vorhanden: " + employees.size()
+            );
+        }
+
         List<ShiftAssignment> schedule = new ArrayList<>();
         Iterator<Employee> iterator = new EmployeeIterator(employees);
 
