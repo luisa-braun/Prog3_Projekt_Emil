@@ -1,8 +1,9 @@
 package de.emil.pr3.ui;
 
 
-import de.emil.pr3.schedule.WorkScheduleWeeklyTemplate;
+import de.emil.pr3.schedule.*;
 import de.emil.pr3.databases.EmployeeDatabase;
+
 
 import java.sql.SQLException;
 
@@ -64,7 +65,13 @@ public class MainMenu extends UserInterface{
                 WorkSchedulePrinter.showEmptyPlan();
                 break;
             case GENERATE_WORKSCHEDULE:
-                //placeHolderSchedule();
+                try(EmployeeDatabase db = new EmployeeDatabase()) {
+                    WorkScheduleGenerator generator = new WorkScheduleGenerator(db.getListOfEmployees());
+                    WorkSchedulePrinter.showSchedule(generator.generateWeeklySchedule(WorkScheduleWeeklyTemplate.getWeeklyTemplate()));
+                }
+                catch (IllegalArgumentException | SQLException e){
+                    System.out.println(e.getMessage());
+                }
                 break;
             case END_PROGRAM:
                 System.out.println("You have finished the Program. Goodbye.");

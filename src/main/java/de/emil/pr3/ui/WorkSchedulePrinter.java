@@ -15,7 +15,8 @@ public class WorkSchedulePrinter {
         List<Shift> template = WorkScheduleWeeklyTemplate.getWeeklyTemplate();
 
         System.out.println("\n------------------------------------ WEEKLY SHIFT TEMPLATE --------------------------------------");
-        System.out.printf("%-12s | %-15s | %-10s | %-10s | %-10s | %-9s | %-15s%n", "Day", "Shift", "Identifier", "Start", "End", "Duration", "Staff Needed");
+        System.out.printf("%-12s | %-15s | %-10s | %-10s | %-10s | %-9s | %-15s%n",
+                "Day", "Shift", "Identifier", "Start", "End", "Duration", "Staff Needed");
         System.out.println("-------------------------------------------------------------------------------------------------");
 
 
@@ -33,6 +34,45 @@ public class WorkSchedulePrinter {
                 }
             }
             System.out.println("-------------------------------------------------------------------------------------------------");
+        }
+    }
+
+    public static void showSchedule(List<ShiftAssignment> schedule) {
+        String[] dayCodes = {"Mo", "Di", "Mi", "Do", "Fr"};
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+
+        System.out.println("\n------------------------------------ WEEKLY SHIFT SCHEDULE -------------------------------------------------------------------------------------");
+        System.out.printf("%-12s | %-15s | %-10s | %-10s | %-10s | %-9s | %-10s | %-15s%n",
+                "Day", "Shift", "Identifier", "Start", "End", "Duration", "Staff Needed", "Assigned Employees");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
+
+        for (int i = 0; i < dayCodes.length; i++) {
+            String dayCode = dayCodes[i];
+            String dayLabel = days[i];
+            boolean firstRow = true;
+
+            for (ShiftAssignment sa : schedule) {
+                if (sa.shift().identifier().startsWith(dayCode)) {
+                    String label = firstRow ? dayLabel : "";
+                    String employees = sa.employees().isEmpty() ? "-"
+                            : sa.employees().stream()
+                            .map(e -> e.getFirstName() + " " + e.getLastName())
+                            .collect(Collectors.joining(", "));
+
+                    System.out.printf("%-12s | %-15s | %-10s | %-10s | %-10s | %d hours   | %d Person(s) | %s%n",
+                            label,
+                            sa.shift().name(),
+                            sa.shift().identifier(),
+                            sa.shift().start(),
+                            sa.shift().end(),
+                            sa.shift().duration(),
+                            sa.shift().requiredStaff(),
+                            employees
+                    );
+                    firstRow = false;
+                }
+            }
+            System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
         }
     }
 
