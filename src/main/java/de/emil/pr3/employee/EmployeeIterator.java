@@ -20,12 +20,15 @@ public class EmployeeIterator implements Iterator<Employee>{
 
     @Override
     public boolean hasNext(){
-        return true;
+        return index < employees.size() - 1;
     }
 
     @Override
     public Employee next() {
         if (employees.isEmpty()){
+            throw new NoSuchElementException();
+        }
+        if (!hasNext()){
             throw new NoSuchElementException();
         }
 

@@ -16,7 +16,7 @@ class EmployeeDatabaseTest {
 
     @BeforeAll
     static void setupDatabase() throws Exception {
-        databank = new EmployeeDatabase(EmployeeDatabase.TEST_URL);
+        databank = new EmployeeDatabase(Database.TEST_URL);
         create = databank.create;
     }
 
