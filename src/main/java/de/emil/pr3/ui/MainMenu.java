@@ -74,23 +74,23 @@ public class MainMenu extends UserInterface{
                 }
                 break;
             case END_PROGRAM:
-                System.out.println("Sie haben das Programm beendet.");
+                System.out.println("You have ended the Programm.");
                 break;
             default:
-                System.out.println("Nicht verfügbare option eingegeben. Bitte geben sie eine angezeigten Nummern an.");
+                System.out.println("You entered a non viable option. Please enter one of the displayed Numbers.");
                 break;
         }
     }
 
     private void showMenu() {
-        System.out.println("===== Hauptmenü =====");
-        System.out.println("1. Momentane Arbeiter im System");
-        System.out.println("2. Arbeiter dem System hinzufügen");
-        System.out.println("3. Arbeiter aus dem System entfernen");
-        System.out.println("4. Besichtige momentane wöchentlichen Schichten");
-        System.out.println("5. Generiere wöchentlichen Arbeitsplan");
-        System.out.println("6. Beende Programm");
-        System.out.print(" Bitte wählen sie eine Option aus: ");
+        System.out.println("===== Main Menu =====");
+        System.out.println("1. View current Workers in the System");
+        System.out.println("2. Add Worker to the System");
+        System.out.println("3. Delete Worker from the System");
+        System.out.println("4. View Schedule Template");
+        System.out.println("5. Generate weekly Schedule");
+        System.out.println("6. End Programm");
+        System.out.print(" Please choose an option: ");
 
     }
 

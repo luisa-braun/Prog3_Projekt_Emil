@@ -20,10 +20,10 @@ public class InputReader {
                 String line = scanner.next();
                 result = Integer.parseInt(line);
                 if (result < 0) {
-                    System.out.println("Bitte eine Positive Zahl eingeben.");
+                    System.out.println("Please enter a positive Number.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Error: Bitte eine valide Zahl eingeben.");
+                System.out.println("Error: Please enter a valid Number.");
             }
         }
         return result;
