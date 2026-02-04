@@ -18,17 +18,18 @@ public class EmployeeIterator implements Iterator<Employee>{
         this.employees = employees;
     }
 
+
+    /**
+     * @return always true, because this Iterator is supposed to cycle endlessly through the List.
+     */
     @Override
     public boolean hasNext(){
-        return index < employees.size() - 1;
+        return true;
     }
 
     @Override
     public Employee next() {
         if (employees.isEmpty()){
-            throw new NoSuchElementException();
-        }
-        if (!hasNext()){
             throw new NoSuchElementException();
         }
 
