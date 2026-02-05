@@ -22,7 +22,7 @@ Führen Sie im Hauptverzeichnis folgenden Befehl aus:
 mvn compile exec:java 
 ```
 
-## 3. Usage (Anwendung)
+## 3. Anwendung
 Die Funktionalität des Work Schedule Managers:
 
 ### 1.Mitarbeiterverwaltung
@@ -33,6 +33,7 @@ Validierung: Das System prüft automatisch, ob Namen leer sind oder die Arbeitsz
 
 Listenansicht: Alle gespeicherten Mitarbeiter lassen sich sortiert nach ihrer ID anzeigen.
 
+ 
 ### 2.Dienstplan-Generierung
 
 Automatischer Algorithmus: Das System generiert einen Wochenplan, indem es das Iterator Pattern nutzt.
@@ -40,4 +41,13 @@ Automatischer Algorithmus: Das System generiert einen Wochenplan, indem es das I
 Faire Verteilung: Der EmployeeIterator durchläuft die Mitarbeiterliste zyklisch, sodass jeder Mitarbeiter gleichmäßig für Schichten eingeteilt wird.
 
 Sicherheitsprüfung: Bevor ein Plan erstellt wird, validiert der Iterator, dass die Mitarbeiterliste nicht leer ist.
+
+## 4.Beispiel
+
+Beispiel: Vollständiger Workflow
+Mitarbeiter erfassen: Option 2 wählen -> Erstelle 2 Employees(VorName,Nachname und Arbeitskapazität)
+
+Daten prüfen: Option 1 wählen -> Der neue Eintrag erscheint in der Liste.
+
+Plan erstellen: Option 5 wählen -> Der EmployeeIterator weist beide Empoyees automatisch den Schichten zu.
 
