@@ -1,7 +1,6 @@
 package de.emil.pr3.ui;
 
 
-import de.emil.pr3.jooq.tables.Employee;
 import de.emil.pr3.schedule.*;
 import de.emil.pr3.databases.EmployeeDatabase;
 
