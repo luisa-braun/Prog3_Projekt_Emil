@@ -19,6 +19,25 @@ Die Anwendung wird über das Maven Exec Plugin gestartet. Dies garantiert, dass 
 Führen Sie im Hauptverzeichnis folgenden Befehl aus:
 
 ```PowerShell
-mvn compile exec:java "-Dexec.mainClass=de.emil.pr3.ui.WorkScheduleManager"
+mvn compile exec:java 
 ```
-## 3. Beispiele (Schnelleinstieg & Live-Demo)
+
+## 3. Usage (Anwendung)
+Die Funktionalität des Work Schedule Managers:
+
+### 1.Mitarbeiterverwaltung
+
+Mitarbeiter anlegen: Über das Menü können neue Mitarbeiter mit Vorname, Nachname und einer Arbeitskapazität (0-60 Std.) hinzugefügt werden.
+
+Validierung: Das System prüft automatisch, ob Namen leer sind oder die Arbeitszeit außerhalb des zulässigen Bereichs liegt.
+
+Listenansicht: Alle gespeicherten Mitarbeiter lassen sich sortiert nach ihrer ID anzeigen.
+
+### 2.Dienstplan-Generierung
+
+Automatischer Algorithmus: Das System generiert einen Wochenplan, indem es das Iterator Pattern nutzt.
+
+Faire Verteilung: Der EmployeeIterator durchläuft die Mitarbeiterliste zyklisch, sodass jeder Mitarbeiter gleichmäßig für Schichten eingeteilt wird.
+
+Sicherheitsprüfung: Bevor ein Plan erstellt wird, validiert der Iterator, dass die Mitarbeiterliste nicht leer ist.
+
