@@ -21,12 +21,15 @@ Führe diesen Befehl aus, um die jOOQ-Klassen aus dem Schema zu generieren und d
 mvn clean package
 ```
 
-# 2. Deatures
-View Workers
-Add/Delete Workers
-View empty Template
-Generate Weekly Schedule
-(WIP)
+2. Funktionen
+Die Anwendung bietet eine zentrale Schnittstelle für das Personalmanagement und die Dienstplanung:
+
+Mitarbeiter anzeigen: Tabellarische Auflistung aller registrierten Mitarbeiter.
+Hinzufügen: Erfassung von Vorname und Nachname
+Löschen: Entfernen von Mitarbeitern anhand ihrer ID.
+Template-Ansicht: Anzeige der standardmäßigen wöchentlichen Schichtstruktur.
+Wochenplan generieren: Ein automatisierter Algorithmus weist Mitarbeiter den Schichten zu. Eine Validierung stellt sicher, dass die Mindestanzahl an Personal vorhanden ist, bevor die Planung startet.
+
 
 # 3.Technische Details & Projektstruktur
 
