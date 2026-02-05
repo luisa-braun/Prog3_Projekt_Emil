@@ -83,6 +83,8 @@ public class MainMenu extends UserInterface{
     }
 
     private void showMenu() {
+        System.out.println();
+        System.out.println();
         System.out.println("===== Main Menu =====");
         System.out.println("1. View current Employees in the System");
         System.out.println("2. Add Employee to the System");
