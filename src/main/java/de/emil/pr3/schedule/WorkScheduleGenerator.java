@@ -31,7 +31,7 @@ public class WorkScheduleGenerator {
 
         if (employees.size() < maxRequired) {
             throw new IllegalStateException(
-                    "Not enough Workers. Maximal needed: " + maxRequired + ", available: " + employees.size()
+                    "Not enough Employees. Maximal needed: " + maxRequired + ", available: " + employees.size()
             );
         }
 

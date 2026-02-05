@@ -1,6 +1,7 @@
 package de.emil.pr3.ui;
 
 
+import de.emil.pr3.jooq.tables.Employee;
 import de.emil.pr3.schedule.*;
 import de.emil.pr3.databases.EmployeeDatabase;
 
@@ -55,7 +56,7 @@ public class MainMenu extends UserInterface{
             case DELETE_WORKERS:
                 try(EmployeeDatabase db = new EmployeeDatabase()) {
                     PrintEmployeeListMenu.printListOfEmployees(db.getListOfEmployees());
-                    System.out.println("Please enter the ID of the employee:");
+                    System.out.println("Please enter the ID of the Employee:");
                     db.deleteEmployeeById(inputReader.readPositiveInteger());
                 } catch (IllegalArgumentException | SQLException e){
                     System.out.println(e.getMessage());
@@ -84,9 +85,9 @@ public class MainMenu extends UserInterface{
 
     private void showMenu() {
         System.out.println("===== Main Menu =====");
-        System.out.println("1. View current Workers in the System");
-        System.out.println("2. Add Worker to the System");
-        System.out.println("3. Delete Worker from the System");
+        System.out.println("1. View current Employees in the System");
+        System.out.println("2. Add Employee to the System");
+        System.out.println("3. Delete Employee from the System");
         System.out.println("4. View Schedule Template");
         System.out.println("5. Generate weekly Schedule");
         System.out.println("6. End Programm");

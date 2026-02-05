@@ -61,6 +61,7 @@ public class EmployeeDatabase extends Database implements EmployeeDatabaseInterf
         if (Objects.isNull(deletedEmployee)) {
             throw new IllegalArgumentException("Employee with ID " + id + " does not exist");
         }
+        System.out.println("You deleted " + deletedEmployee);
         return deletedEmployee;
     }
 

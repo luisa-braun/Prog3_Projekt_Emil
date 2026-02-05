@@ -16,7 +16,7 @@ public class AddEmployeeMenu {
 
         try (EmployeeDatabase db = new EmployeeDatabase()) {
             db.createNewEmployee(firstName, lastName, weeklyWorkCapacity);
-            System.out.println("Worker successfully added to the System: " + firstName + " " + lastName + ", Work hours: " + weeklyWorkCapacity);
+            System.out.println("Employee successfully added to the System: " + firstName + " " + lastName + ", Work hours: " + weeklyWorkCapacity);
         } catch (IllegalArgumentException | SQLException e) {
             System.out.println(e.getMessage());
         }
