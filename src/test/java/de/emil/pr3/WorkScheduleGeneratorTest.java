@@ -45,6 +45,6 @@ public class WorkScheduleGeneratorTest {
                 () -> generator.generateWeeklySchedule(shifts)
         );
 
-        assertTrue(exception.getMessage().contains("Nicht genügend Mitarbeiter"));
+        assertTrue(exception.getMessage().contains("Not enough Workers"));
     }
 }

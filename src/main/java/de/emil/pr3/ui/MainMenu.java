@@ -19,12 +19,12 @@ public class MainMenu extends UserInterface{
 
     @Override
     public void start() {
-        int funktion = 0;
+        int function = 0;
         do {
             try {
                 showMenu();
-                funktion = readFunction();
-                executeFunction(funktion);
+                function = readFunction();
+                executeFunction(function);
             }
             catch(Exception e)
             {
@@ -32,7 +32,7 @@ public class MainMenu extends UserInterface{
                 e.printStackTrace(System.out);
             }
         }
-        while (funktion != END_PROGRAM);
+        while (function != END_PROGRAM);
 
     }
 
@@ -40,11 +40,11 @@ public class MainMenu extends UserInterface{
         return inputReader.readPositiveInteger();
     }
 
-    private void executeFunction(int funktion) {
-        switch (funktion) {
+    private void executeFunction(int function) {
+        switch (function) {
             case VIEW_WORKERS:
                 try(EmployeeDatabase db = new EmployeeDatabase()) {
-                    System.out.println(db.getListOfEmployees());
+                    PrintEmployeeListMenu.printListOfEmployees(db.getListOfEmployees());
                 } catch (IllegalArgumentException | SQLException e){
                     System.out.println(e.getMessage());
                 }
@@ -54,8 +54,8 @@ public class MainMenu extends UserInterface{
                 break;
             case DELETE_WORKERS:
                 try(EmployeeDatabase db = new EmployeeDatabase()) {
-                    System.out.println(db.getListOfEmployees());
-                    // TODO: noch Befehl ausgeben, dass ID eingegeben werden soll
+                    PrintEmployeeListMenu.printListOfEmployees(db.getListOfEmployees());
+                    System.out.println("Please enter the ID of the employee:");
                     db.deleteEmployeeById(inputReader.readPositiveInteger());
                 } catch (IllegalArgumentException | SQLException e){
                     System.out.println(e.getMessage());
@@ -93,5 +93,4 @@ public class MainMenu extends UserInterface{
         System.out.print(" Please choose an option: ");
 
     }
-
 }
