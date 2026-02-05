@@ -1,21 +1,10 @@
 # Prog3_Projekt_Emil
 
-## Build
-
-This project uses Maven.
-
-To build the project (including jOOQ code generation):
-
-```bash
-mvn clean package
-
-```
-
 # 1. Installation 
-Dieses Projekt ist vollständig automatisiert. Es sind keine manuellen Datenbank-Setups erforderlich.
+Das Projekt wird vollständig über Maven verwaltet. Dies beinhaltet das Abhängigkeitsmanagement und die automatische Generierung der Datenbankklassen (jOOQ).
 
-## Build
-Führe diesen Befehl aus, um die jOOQ-Klassen aus dem Schema zu generieren und die App zu bauen:
+## Build-Prozess
+Führe den folgenden Befehl im Hauptverzeichnis aus, um die jOOQ-Klassen aus dem Schema zu generieren und das Projekt zu kompilieren:
 
 ```
 mvn clean package
