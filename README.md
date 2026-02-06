@@ -1,7 +1,6 @@
 # Prog3_Projekt_Emil & Work Schedule Manager – Quickstart
 
 Dieses Projekt ist eine Konsolenanwendung zur Verwaltung von Mitarbeitern und zur automatischen Erstellung von Wochen-Schichtplänen.
-
 <br /> 
 
 ## Technische Voraussetzungen
@@ -71,7 +70,9 @@ Mitarbeiter erfassen: Option 2 wählen -> Erstelle 2 Employees(VorName, Nachname
 Daten prüfen: Option 1 wählen -> Der neue Eintrag erscheint in der Liste.
 
 Plan erstellen: Option 5 wählen -> Der EmployeeIterator weist beide Employees automatisch den Schichten zu.
+
 <img width="994" height="353" alt="image" src="https://github.com/user-attachments/assets/7a186ea2-6ef9-48d7-922f-df71ccde07e5" />
+
 <img width="1387" height="414" alt="image" src="https://github.com/user-attachments/assets/78420790-757f-41ec-8322-e27acd805991" />
 
 
