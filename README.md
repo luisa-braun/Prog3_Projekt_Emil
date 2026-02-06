@@ -1,9 +1,18 @@
 # Prog3_Projekt_Emil & Work Schedule Manager – Quickstart
 
+Dieses Projekt ist eine Konsolenanwendung zur Verwaltung von Mitarbeitern und zur automatischen Erstellung von Wochen-Schichtplänen.
+
 <br /> 
 
+## Technische Voraussetzungen
+- Java JDK 21
+- Apache Maven 3.x
+- SQLite
+- jOOQ 3.19.x
+- JUnit 5
+
 ## 1. Setup (Installation & Build)
-Stellen Sie sicher, dass Java und Maven installiert sind. Da das Projekt jOOQ zur Code-Generierung nutzt, müssen die Datenbank-Klassen vor dem ersten Start generiert werden.
+Stellen Sie sicher, dass Java und Maven installiert sind. Das Projekt benutzt jOOQ zur Code-Generierung. Die jOOQ-Klassen werden automatisch während des Maven-Builds generiert.
 
 #### 1. Öffnen Sie ein Terminal im Hauptverzeichnis des Projekts.
 
